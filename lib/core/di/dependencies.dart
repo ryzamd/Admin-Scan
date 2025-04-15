@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/login/data/data_sources/login_remote_datasource.dart';
 import '../../features/auth/login/data/repositories/user_repository_impl.dart';
+import '../../features/auth/login/domain/entities/user_entity.dart';
 import '../../features/auth/login/domain/repositories/user_repository.dart';
 import '../../features/auth/login/domain/usecases/user_login.dart';
 import '../../features/auth/login/domain/usecases/validate_token.dart';
@@ -15,6 +16,11 @@ import '../../features/auth/logout/data/repositories/logout_repository_impl.dart
 import '../../features/auth/logout/domain/repositories/logout_repository.dart';
 import '../../features/auth/logout/domain/usecases/logout_usecase.dart';
 import '../../features/auth/logout/presentation/bloc/logout_bloc.dart';
+import '../../features/home_data/data/datasources/home_data_remote_datasource.dart';
+import '../../features/home_data/data/repositories/home_data_repository_impl.dart';
+import '../../features/home_data/domain/repositories/home_data_repository.dart';
+import '../../features/home_data/domain/usecases/get_home_data.dart';
+import '../../features/home_data/presentation/bloc/home_data_bloc.dart';
 import '../auth/auth_repository.dart';
 import '../network/dio_client.dart';
 import '../network/network_infor.dart';
@@ -27,6 +33,7 @@ Future<void> initAsync() async {
   await coreFeatureAsync();
   await loginFeatureAsync();
   await logoutFeatureAsync();
+  await homeDataFeatureAsync();
 }
 
 Future<void> coreFeatureAsync() async {
@@ -62,4 +69,24 @@ Future<void> logoutFeatureAsync() async {
   sl.registerLazySingleton<LogoutRepository>(() => LogoutRepositoryImpl(dataSource: sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerFactory(() => LogoutBloc(logoutUseCase: sl()));
+}
+
+Future<void> homeDataFeatureAsync() async {
+  sl.registerFactoryParam<HomeDataBloc, UserEntity, void>(
+    (user, _) => HomeDataBloc(
+      user: user,
+      getHomeData: sl(),
+      date: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<HomeDataRepository>(
+    () => HomeDataRepositoryImpl(
+      homeDataRemoteDatasource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<HomeDataRemoteDataSource>(() => HomeDataRemoteDataSourceImpl(dio: sl()),);
+  sl.registerLazySingleton(() => GetHomeData(homeDataRepository: sl()));
 }

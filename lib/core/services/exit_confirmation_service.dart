@@ -10,9 +10,7 @@ class BackButtonService {
   BackButtonService._internal();
 
 
-  static const EventChannel _eventChannel = EventChannel(
-    'com.example.warehouse_scan/back_button',
-  );
+  static const EventChannel _eventChannel = EventChannel('com.example.admin_scan/back_button');
 
   StreamSubscription? _subscription;
 
