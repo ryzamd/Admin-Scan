@@ -28,7 +28,7 @@ class _HomeDataPageState extends State<HomeDataPage> {
     _searchController = TextEditingController();
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      NavigationService().clearLastAdminRoute();
+      NavigationService().enterHomePage();
       
       di.sl<AuthRepository>().debugTokenStateAsync().then((_) {
         if (mounted) {

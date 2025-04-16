@@ -45,6 +45,9 @@ class CustomScaffold extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final navigationService = NavigationService();
+    final shouldShowBack = showBackButton || navigationService.shouldShowBackButton(context);
+
     return AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
@@ -61,12 +64,12 @@ class CustomScaffold extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      leading: showBackButton
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          : null,
+      leading: shouldShowBack && showHomeIcon
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                onPressed: () => navigationService.handleBackButton(context),
+              )
+            : null,
       actions: actions,
     );
   }

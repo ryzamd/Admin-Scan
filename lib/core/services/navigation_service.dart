@@ -10,11 +10,17 @@ class NavigationService {
   String? previousMainRoute;
   
   void setLastAdminRoute(String? route) {
-    lastAdminRoute = route;
+    if (route != null && route.startsWith('/admin/')) {
+      lastAdminRoute = route;
+    }
   }
   
   void clearLastAdminRoute() {
     lastAdminRoute = null;
+  }
+  
+  void enterHomePage() {
+    previousMainRoute = AppRoutes.homeData;
   }
   
   void enterProfilePage() {
@@ -23,7 +29,13 @@ class NavigationService {
   }
   
   String getWorkDestination(BuildContext context) {
-    if (ModalRoute.of(context)?.settings.name == AppRoutes.profile) {
+    final currentRoute = ModalRoute.of(context)?.settings.name;
+    
+    if (currentRoute == AppRoutes.homeData && lastAdminRoute != null) {
+      return lastAdminRoute!;
+    }
+    
+    if (currentRoute == AppRoutes.profile) {
       return AppRoutes.dashboard;
     }
     
@@ -32,6 +44,10 @@ class NavigationService {
   
   bool shouldShowBackButton(BuildContext context) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
+    
+    if (currentRoute != null && currentRoute.startsWith('/admin/')) {
+      return true;
+    }
     
     if (currentRoute == AppRoutes.dashboard ||
         currentRoute == AppRoutes.homeData ||
@@ -49,6 +65,7 @@ class NavigationService {
       Navigator.pushReplacementNamed(
         context,
         AppRoutes.dashboard,
+        arguments: ModalRoute.of(context)?.settings.arguments
       );
     } else {
       Navigator.pop(context);
