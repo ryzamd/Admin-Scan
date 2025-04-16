@@ -27,12 +27,14 @@ class HomeDataLoaded extends HomeDataState {
   final String sortColumn;
   final bool ascending;
   final String searchQuery;
+  final DateTime selectedDate;
 
   const HomeDataLoaded({
     required this.items,
     required this.filteredItems,
     required this.sortColumn,
     required this.ascending,
+    required this.selectedDate,
     this.searchQuery = '',
   });
 
@@ -42,6 +44,7 @@ class HomeDataLoaded extends HomeDataState {
     filteredItems,
     sortColumn,
     ascending,
+    selectedDate,
     searchQuery,
   ];
 
@@ -51,12 +54,14 @@ class HomeDataLoaded extends HomeDataState {
     String? sortColumn,
     bool? ascending,
     String? searchQuery,
+    DateTime? selectedDate,
   }) {
     return HomeDataLoaded(
       items: items ?? this.items,
       filteredItems: filteredItems ?? this.filteredItems,
       sortColumn: sortColumn ?? this.sortColumn,
       ascending: ascending ?? this.ascending,
+      selectedDate: selectedDate ?? this.selectedDate,
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }

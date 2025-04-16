@@ -53,6 +53,7 @@ class ErrorDialog extends StatelessWidget {
           style: const TextStyle(
             color: Colors.red,
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         content: Text(message),

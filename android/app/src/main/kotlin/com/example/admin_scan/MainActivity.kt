@@ -21,9 +21,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 class MainActivity : FlutterActivity() {
-    private val EVENT_CHANNEL = "com.example.warehouse_scan/scanner"
-    private val BACK_BUTTON_CHANNEL = "com.example.warehouse_scan/back_button"
-    private val METHOD_CHANNEL = "com.example.warehouse_scan"
+    private val EVENT_CHANNEL = "com.example.admin_scan/scanner"
+    private val BACK_BUTTON_CHANNEL = "com.example.admin_scan/back_button"
+    private val METHOD_CHANNEL = "com.example.admin_scan"
 
     private var eventSink: EventChannel.EventSink? = null
     private var backButtonEventSink: EventChannel.EventSink? = null

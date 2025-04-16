@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         if (state is LoginSuccess) {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            AppRoutes.homeData,
+            AppRoutes.dashboard,
             (route) => false,
             arguments: state.user,
           );

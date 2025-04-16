@@ -28,11 +28,13 @@ class HomeDataTableWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
 
         } else if (state is HomeDataError) {
-          ErrorDialog.showAsync(
-            context,
-            title: 'Error',
-            message: state.message,
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ErrorDialog.showAsync(
+              context,
+              title: 'ERROR',
+              message: "Cannot load data",
+            );
+          });
           
         } else if (state is HomeDataLoaded || state is HomeDataRefreshing) {
           final items =
@@ -87,13 +89,13 @@ class HomeDataTableWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _buildHeaderCell('名稱', flex: 3),
+          _buildHeaderCell('名稱', flex: 2),
           _buildHeaderCell('指令號', flex: 2),
           _buildHeaderCell('入庫數量', flex: 2),
           _buildHeaderCell('出庫數量', flex: 2),
-          _buildHeaderCell('資材入庫', flex: 1),
-          _buildHeaderCell('資材出庫', flex: 1),
-          _buildHeaderCell('時間', flex: 2,
+          _buildHeaderCell('資材入庫', flex: 2),
+          _buildHeaderCell('資材出庫', flex: 2),
+          _buildHeaderCell('時間', flex: 3,
             onTap: () => _onSortColumn(context, 'date'),
             isSort: sortColumn == 'date',
             ascending: ascending
@@ -160,7 +162,7 @@ class HomeDataTableWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          flex: 3,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
             child: Text(
@@ -208,7 +210,7 @@ class HomeDataTableWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(
@@ -219,7 +221,7 @@ class HomeDataTableWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(
@@ -230,7 +232,7 @@ class HomeDataTableWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: 3,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
             child: Text(

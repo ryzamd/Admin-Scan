@@ -13,13 +13,13 @@ import '../../domain/entities/home_data_entity.dart';
 class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
   UserEntity user;
   GetHomeData getHomeData;
-  String date;
   
-  HomeDataBloc({required this.date, required this.getHomeData, required this.user}) : super(HomeDataInitial()) {
+  HomeDataBloc({required this.getHomeData, required this.user}) : super(HomeDataInitial()) {
     on<GetHomeDataEvent>(_onGetHomeDataAsync);
     on<RefreshHomeDataEvent>(_onRefreshHomeDataAsync);
     on<SortHomeDataEvent>(_onSortHomeDataAsync);
     on<SearchHomeDataEvent>(_onSearchHomeDataAsync);
+    on<SelectDateEvent>(_onSelectDate);
   }
 
   FutureOr<void> _onGetHomeDataAsync(GetHomeDataEvent event, Emitter<HomeDataState> emit) async {
@@ -28,8 +28,8 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
 
       final result = await getHomeData(HomeDataParams(date: event.date));
 
-      result.fold(
-        (failure) => emit(HomeDataError(message: failure.message)),
+      await result.fold(
+        (failure) async => emit(HomeDataError(message: failure.message)),
         (items) async {
           
           final sortedItems = List<HomeDataEntity>.from(items);
@@ -40,6 +40,7 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
             filteredItems: items,
             sortColumn: 'date',
             ascending: false,
+            selectedDate: DateTime.now(),
           ));
         },
       );
@@ -60,7 +61,7 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
       try {
         final result = await getHomeData(HomeDataParams(date: event.date));
 
-        result.fold(
+       await result.fold(
           (failure) async {
             emit(
               HomeDataLoaded(
@@ -72,6 +73,7 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
                 sortColumn: currentState.sortColumn,
                 ascending: currentState.ascending,
                 searchQuery: currentState.searchQuery,
+                selectedDate: DateTime.now(),
               ),
             );
 
@@ -96,6 +98,7 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
                 sortColumn: currentState.sortColumn,
                 ascending: currentState.ascending,
                 searchQuery: currentState.searchQuery,
+                selectedDate: DateTime.now(),
               ),
             );
           },
@@ -111,6 +114,7 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
             sortColumn: currentState.sortColumn,
             ascending: currentState.ascending,
             searchQuery: currentState.searchQuery,
+            selectedDate: DateTime.now(),
           ),
         );
 
@@ -151,12 +155,32 @@ class HomeDataBloc extends Bloc<HomeDataEvent, HomeDataState> {
     }
   }
 
+  Future<void> _onSelectDate(SelectDateEvent event, Emitter<HomeDataState> emit) async {
+    final currentState = state;
+    
+    if (currentState is HomeDataLoaded) {
+      emit(currentState.copyWith(selectedDate: event.selectedDate));
+
+      add(RefreshHomeDataEvent(date: formatDateTime(event.selectedDate)));
+
+    } else {
+      add(GetHomeDataItemsEvent(date: formatDateTime(event.selectedDate)));
+      
+    }
+  }
+
+  String formatDateTime(DateTime formattedDate){
+    return "${formattedDate.year}-${formattedDate.month.toString().padLeft(2, '0')}-${formattedDate.day.toString().padLeft(2, '0')}";
+  }
+  
   void loadData() {
-    add(GetHomeDataEvent(date: date));
+    final now = DateTime.now();
+    add(GetHomeDataEvent(date: formatDateTime(now)));
   }
 
   void refreshData() {
-    add(RefreshHomeDataEvent(date: date));
+    final now = DateTime.now();
+    add(RefreshHomeDataEvent(date: formatDateTime(now)));
   }
 }
 
