@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_routes.dart';
 import '../../../../core/di/dependencies.dart' as di;
+import '../../../../core/services/navigation_service.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../bloc/admin_action_bloc.dart';
 import 'admin_action_page.dart';
@@ -12,6 +14,11 @@ class ClearWarehouseQtyPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().setLastAdminRoute(AppRoutes.clearWarehouseQty);
+    });
+
     return BlocProvider(
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminActionPage(
@@ -31,6 +38,11 @@ class ClearQcInspectionPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().setLastAdminRoute(AppRoutes.clearQcInspection);
+    });
+
     return BlocProvider(
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminActionPage(
@@ -50,6 +62,11 @@ class ClearQcDeductionPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().setLastAdminRoute(AppRoutes.clearQcDeduction);
+    });
+
     return BlocProvider(
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminActionPage(
@@ -69,6 +86,11 @@ class PullQcUncheckedDataPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().setLastAdminRoute(AppRoutes.pullQcUnchecked);
+    });
+
     return BlocProvider(
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminActionPage(
@@ -88,6 +110,11 @@ class ClearAllDataPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().setLastAdminRoute(AppRoutes.clearAllData);
+    });
+    
     return BlocProvider(
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminActionPage(

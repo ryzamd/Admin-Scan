@@ -86,7 +86,6 @@ class MyApp extends StatelessWidget {
               builder: (_) => ProfilePage(user: args,),
             );
           
-            // Admin action routes
           case AppRoutes.clearWarehouseQty:
             final args = settings.arguments as UserEntity;
             return MaterialPageRoute(

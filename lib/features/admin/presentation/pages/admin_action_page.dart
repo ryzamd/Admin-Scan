@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../../core/constants/key_code_constants.dart';
+import '../../../../core/services/navigation_service.dart';
 import '../../../../core/services/scan_service.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../core/widgets/error_dialog.dart';
@@ -75,6 +76,15 @@ class _AdminActionPageState extends State<AdminActionPage> with WidgetsBindingOb
       if (_cameraActive) {
         _initializeCameraController();
       }
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    if (mounted) {
+      NavigationService().setLastAdminRoute(ModalRoute.of(context)?.settings.name);
     }
   }
 
@@ -259,6 +269,7 @@ class _AdminActionPageState extends State<AdminActionPage> with WidgetsBindingOb
           title: widget.title,
           user: widget.user,
           currentIndex: 1,
+          showHomeIcon: true,
           body: KeyboardListener(
             focusNode: _focusNode,
             autofocus: true,

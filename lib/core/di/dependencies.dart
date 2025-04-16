@@ -31,6 +31,7 @@ import '../network/dio_client.dart';
 import '../network/network_infor.dart';
 import '../network/token_interceptor.dart';
 import '../services/admin_action_service.dart';
+import '../services/navigation_service.dart';
 import '../services/secure_storage_service.dart';
 
 final sl = GetIt.instance;
@@ -72,6 +73,8 @@ Future<void> coreFeatureAsync() async {
       secureStorage: sl<SecureStorageService>(),
     ),
   );
+
+  sl.registerLazySingleton<NavigationService>(() => NavigationService());
 }
 
 Future<void> loginFeatureAsync() async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/auth/auth_repository.dart';
 import '../../../../core/di/dependencies.dart' as di;
+import '../../../../core/services/navigation_service.dart';
 import '../../../../core/widgets/scafford_custom.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../bloc/home_data_bloc.dart';
@@ -27,6 +28,8 @@ class _HomeDataPageState extends State<HomeDataPage> {
     _searchController = TextEditingController();
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().clearLastAdminRoute();
+      
       di.sl<AuthRepository>().debugTokenStateAsync().then((_) {
         if (mounted) {
           context.read<HomeDataBloc>().loadData();
@@ -47,6 +50,7 @@ class _HomeDataPageState extends State<HomeDataPage> {
       title: 'HOME DATA',
       user: widget.user,
       currentIndex: 0,
+      showHomeIcon: true,
       showBackButton: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
