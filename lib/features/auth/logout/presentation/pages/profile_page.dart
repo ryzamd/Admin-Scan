@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/di/dependencies.dart' as di;
+import '../../../../../core/services/navigation_service.dart';
 import '../../../../../core/widgets/scafford_custom.dart';
 import '../../../login/domain/entities/user_entity.dart';
 import '../bloc/logout_bloc.dart';
@@ -14,12 +15,18 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().enterProfilePage();
+    });
+    
     return BlocProvider(
       create: (context) => di.sl<LogoutBloc>(),
       child: CustomScaffold(
         title: 'PROFILE',
         showNavBar: true,
         currentIndex: 2,
+        showHomeIcon: false,
         user: user,
         body: Container(
           decoration: const BoxDecoration(

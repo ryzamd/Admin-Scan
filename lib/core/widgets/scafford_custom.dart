@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../features/auth/login/domain/entities/user_entity.dart';
 import '../constants/app_colors.dart';
+import '../services/navigation_service.dart';
 import 'navbar_custom.dart';
 
 
@@ -14,6 +15,7 @@ class CustomScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final PreferredSizeWidget? customAppBar;
   final UserEntity? user;
+  final bool showHomeIcon;
 
   const CustomScaffold({
     super.key,
@@ -25,7 +27,8 @@ class CustomScaffold extends StatelessWidget {
     this.showBackButton = false,
     this.backgroundColor,
     this.customAppBar,
-    this.user
+    this.user,
+    this.showHomeIcon = false,
   });
 
   @override
@@ -37,7 +40,7 @@ class CustomScaffold extends StatelessWidget {
       body: SafeArea(
         child: body,
       ),
-      bottomNavigationBar: showNavBar ? CustomNavBar(currentIndex: currentIndex, user: user,) : null,
+      bottomNavigationBar: showNavBar ? CustomNavBar(currentIndex: currentIndex, user: user, showHomeIcon: showHomeIcon,) : null,
     );
   }
 

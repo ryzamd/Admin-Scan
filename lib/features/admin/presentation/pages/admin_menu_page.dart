@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_routes.dart';
+import '../../../../core/services/navigation_service.dart';
 import '../../../../core/widgets/scafford_custom.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 
@@ -10,9 +11,16 @@ class AdminMenuPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NavigationService().clearLastAdminRoute();
+    });
+    
     return CustomScaffold(
       title: 'Admin Menu',
       user: user,
+      showHomeIcon: false,
+      currentIndex: 1,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
