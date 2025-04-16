@@ -4,6 +4,11 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/admin/data/datasources/admin_action_datasource.dart';
+import '../../features/admin/data/repositories/admin_action_repository_impl.dart';
+import '../../features/admin/domain/repositories/admin_action_repository.dart';
+import '../../features/admin/domain/usecases/execute_admin_action.dart';
+import '../../features/admin/presentation/bloc/admin_action_bloc.dart';
 import '../../features/auth/login/data/data_sources/login_remote_datasource.dart';
 import '../../features/auth/login/data/repositories/user_repository_impl.dart';
 import '../../features/auth/login/domain/entities/user_entity.dart';
@@ -25,6 +30,7 @@ import '../auth/auth_repository.dart';
 import '../network/dio_client.dart';
 import '../network/network_infor.dart';
 import '../network/token_interceptor.dart';
+import '../services/admin_action_service.dart';
 import '../services/secure_storage_service.dart';
 
 final sl = GetIt.instance;
@@ -34,11 +40,11 @@ Future<void> initAsync() async {
   await loginFeatureAsync();
   await logoutFeatureAsync();
   await homeDataFeatureAsync();
+  await _initAdminActionFeatureAsync();
 }
 
 Future<void> coreFeatureAsync() async {
   sl.registerLazySingleton(() => SecureStorageService());
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   
   final dioClient = DioClient();
   sl.registerLazySingleton<DioClient>(() => dioClient);
@@ -49,7 +55,23 @@ Future<void> coreFeatureAsync() async {
   
   final tokenInterceptor = TokenInterceptor(authRepository: sl<AuthRepository>(), navigatorKey: sl<GlobalKey<NavigatorState>>(),);
   dioClient.dio.interceptors.insert(0, tokenInterceptor);
+  
   sl.registerLazySingleton<Dio>(() => dioClient.dio);
+  
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(sl()),
+  );
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => InternetConnectionChecker.createInstance());
+  
+  sl.registerLazySingleton<AdminActionService>(
+  () => AdminActionService(
+      dio: sl<Dio>(),
+      secureStorage: sl<SecureStorageService>(),
+    ),
+  );
 }
 
 Future<void> loginFeatureAsync() async {
@@ -58,10 +80,6 @@ Future<void> loginFeatureAsync() async {
   sl.registerLazySingleton(() => ValidateToken(sl()));
   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<LoginRemoteDataSource>(() => LoginRemoteDataSourceImpl(dio: sl<Dio>()));
-
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => InternetConnectionChecker.createInstance());
 }
 
 Future<void> logoutFeatureAsync() async {
@@ -74,12 +92,12 @@ Future<void> logoutFeatureAsync() async {
 Future<void> homeDataFeatureAsync() async {
   sl.registerFactoryParam<HomeDataBloc, UserEntity, void>(
     (user, _) => HomeDataBloc(
-      user: user,
       getHomeData: sl(),
-      date: sl(),
+      user: user,
     ),
   );
 
+  sl.registerLazySingleton(() => GetHomeData(homeDataRepository: sl()));
   sl.registerLazySingleton<HomeDataRepository>(
     () => HomeDataRepositoryImpl(
       homeDataRemoteDatasource: sl(),
@@ -87,6 +105,47 @@ Future<void> homeDataFeatureAsync() async {
     ),
   );
 
-  sl.registerLazySingleton<HomeDataRemoteDataSource>(() => HomeDataRemoteDataSourceImpl(dio: sl()),);
-  sl.registerLazySingleton(() => GetHomeData(homeDataRepository: sl()));
+  sl.registerLazySingleton<HomeDataRemoteDataSource>(
+    () => HomeDataRemoteDataSourceImpl(
+      dio: sl(),
+      secureStorageService: sl(),
+    ),
+  );
+}
+
+Future<void> _initAdminActionFeatureAsync() async {
+  sl.registerLazySingleton<AdminActionDataSource>(
+    () => AdminActionDataSourceImpl(
+      dio: sl<Dio>(),
+      secureStorage: sl<SecureStorageService>(),
+      adminService: sl<AdminActionService>(),
+    ),
+  );
+  
+  sl.registerLazySingleton<AdminActionRepository>(
+    () => AdminActionRepositoryImpl(
+      dataSource: sl<AdminActionDataSource>(),
+      networkInfo: sl<NetworkInfo>(),
+    ),
+  );
+  
+  sl.registerLazySingleton(() => ExecuteAdminAction(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => ClearWarehouseQtyInt(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => ClearQcInspectionData(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => ClearQcDeductionCode(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => PullQcUncheckedData(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => ClearAllData(sl<AdminActionRepository>()));
+  
+  sl.registerFactoryParam<AdminActionBloc, UserEntity, void>(
+    (user, _) => AdminActionBloc(
+      executeAdminAction: sl<ExecuteAdminAction>(),
+      clearWarehouseQtyInt: sl<ClearWarehouseQtyInt>(),
+      clearQcInspectionData: sl<ClearQcInspectionData>(),
+      clearQcDeductionCode: sl<ClearQcDeductionCode>(),
+      pullQcUncheckedData: sl<PullQcUncheckedData>(),
+      clearAllData: sl<ClearAllData>(),
+      connectionChecker: sl<InternetConnectionChecker>(),
+      currentUser: user,
+    ),
+  );
 }

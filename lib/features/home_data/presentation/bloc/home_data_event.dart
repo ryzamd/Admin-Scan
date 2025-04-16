@@ -46,3 +46,21 @@ class SearchHomeDataEvent extends HomeDataEvent {
   @override
   List<Object> get props => [query];
 }
+
+class SelectDateEvent extends HomeDataEvent {
+  final DateTime selectedDate;
+  
+  const SelectDateEvent({required this.selectedDate});
+  
+  @override
+  List<Object> get props => [selectedDate];
+}
+
+class GetHomeDataItemsEvent extends HomeDataEvent {
+  final String date;
+  
+  const GetHomeDataItemsEvent({required this.date});
+  
+  @override
+  List<Object> get props => [date];
+}

@@ -12,10 +12,10 @@ class HomeDataEntity extends Equatable {
   final String mItemcode;
   final String cDate;
   final String code;
-  final int qcQtyIn;
-  final int qcQtyOut;
-  final int zcWarehouseQtyImport;
-  final int zcWarehouseQtyExport;
+  final double qcQtyIn;
+  final double qcQtyOut;
+  final double zcWarehouseQtyImport;
+  final double zcWarehouseQtyExport;
   final String qtyState;
   final String? staff;
   final String? qcCheckTime;

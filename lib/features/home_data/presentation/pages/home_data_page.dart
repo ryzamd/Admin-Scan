@@ -1,3 +1,4 @@
+import 'package:admin_scan/features/home_data/presentation/bloc/home_data_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/auth/auth_repository.dart';
@@ -71,6 +72,12 @@ class _HomeDataPageState extends State<HomeDataPage> {
       ),
       actions: [
         IconButton(
+          icon: const Icon(Icons.calendar_month, color: Colors.white),
+          onPressed: () {
+            _selectDate(context);
+          },
+        ),
+        IconButton(
           icon: const Icon(Icons.refresh, color: Colors.white),
           onPressed: () {
             context.read<HomeDataBloc>().refreshData();
@@ -122,5 +129,24 @@ class _HomeDataPageState extends State<HomeDataPage> {
         },
       ),
     );
+  }
+
+    Future<void> _selectDate(BuildContext context) async {
+
+    final currentState = context.read<HomeDataBloc>().state;
+    final DateTime initialDate = currentState is HomeDataLoaded ? currentState.selectedDate : DateTime.now();
+        
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+    
+    if(!context.mounted) return;
+
+    if (picked != null && picked != initialDate) {
+      context.read<HomeDataBloc>().add(SelectDateEvent(selectedDate: picked));
+    }
   }
 }

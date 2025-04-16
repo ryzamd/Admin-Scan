@@ -13,8 +13,9 @@ abstract class HomeDataRemoteDataSource {
 
 class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
   final Dio dio;
+  final SecureStorageService secureStorageService;
 
-  HomeDataRemoteDataSourceImpl({required this.dio});
+  HomeDataRemoteDataSourceImpl({required this.dio, required this.secureStorageService});
   
   @override
   Future<List<HomeDataModel>> getHomeDataAsync(String date) async {
@@ -26,7 +27,6 @@ class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
         options: Options(
           headers: {"Authorization": "Bearer $token"},
           contentType: Headers.jsonContentType,
-          responseType: ResponseType.json,
         )
       );
 
@@ -34,7 +34,7 @@ class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
       debugPrint('Home data API response data type: ${response.data.runtimeType}');
 
       if (response.statusCode == 200) {
-        final List<dynamic> itemJson = response.data['data'];
+        final List<dynamic> itemJson = response.data;
 
         final result = itemJson.map((e) => HomeDataModel.fromJson(e)).toList();
 
