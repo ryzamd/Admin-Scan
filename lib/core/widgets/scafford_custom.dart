@@ -16,6 +16,7 @@ class CustomScaffold extends StatelessWidget {
   final PreferredSizeWidget? customAppBar;
   final UserEntity? user;
   final bool showHomeIcon;
+  final Function(int)? customNavBarCallback;
 
   const CustomScaffold({
     super.key,
@@ -29,6 +30,7 @@ class CustomScaffold extends StatelessWidget {
     this.customAppBar,
     this.user,
     this.showHomeIcon = false,
+    this.customNavBarCallback,
   });
 
   @override
@@ -40,7 +42,12 @@ class CustomScaffold extends StatelessWidget {
       body: SafeArea(
         child: body,
       ),
-      bottomNavigationBar: showNavBar ? CustomNavBar(currentIndex: currentIndex, user: user, showHomeIcon: showHomeIcon,) : null,
+      bottomNavigationBar: showNavBar ? CustomNavBar(
+                            currentIndex: currentIndex,
+                            user: user,
+                            showHomeIcon: showHomeIcon,
+                            customCallback: customNavBarCallback,
+                          ) : null,
     );
   }
 

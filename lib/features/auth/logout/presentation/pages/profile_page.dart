@@ -60,15 +60,15 @@ class ProfilePage extends StatelessWidget {
                     ),
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundColor: Colors.white,
-                      child: Text(
-                        user.name.isNotEmpty
-                            ? user.name.substring(0, 1).toUpperCase()
-                            : '?',
-                        style: const TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF3a7bd5),
+                      backgroundColor: Color(0xFFFF8008),
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0xFFECE9E6)),
+                        child: ClipOval(
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(48),
+                            child: Image.asset('assets/avatar/Hedgehog.png'),
+                          )
                         ),
                       ),
                     ),

@@ -114,6 +114,13 @@ Future<void> homeDataFeatureAsync() async {
       secureStorageService: sl(),
     ),
   );
+
+  // sl.registerFactoryParam<HomeDataBloc, String, UserEntity>(
+  //   (functionType, user) => HomeDataBloc(
+  //     getHomeData: sl<GetHomeData>(),
+  //     user: user,
+  //   ),
+  // );
 }
 
 Future<void> _initAdminActionFeatureAsync() async {

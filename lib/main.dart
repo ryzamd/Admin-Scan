@@ -1,8 +1,6 @@
 import 'package:admin_scan/features/auth/logout/presentation/pages/profile_page.dart';
-import 'package:admin_scan/features/home_data/presentation/pages/home_data_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/constants/app_colors.dart';
 import 'core/constants/app_routes.dart';
@@ -13,7 +11,6 @@ import 'features/admin/presentation/pages/admin_action_use_page.dart';
 import 'features/admin/presentation/pages/admin_menu_page.dart';
 import 'features/auth/login/domain/entities/user_entity.dart';
 import 'features/auth/login/presentation/pages/login_page.dart';
-import 'features/home_data/presentation/bloc/home_data_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,16 +64,6 @@ class MyApp extends StatelessWidget {
 
             return MaterialPageRoute(
               builder: (_) => AdminMenuPage(user: args,),
-            );
-
-          case AppRoutes.homeData:
-           final args = settings.arguments as UserEntity;
-           
-            return MaterialPageRoute(
-              builder: (context) => BlocProvider(
-                create: (context) => di.sl<HomeDataBloc>(param1: args),
-                child: HomeDataPage(user: args),
-              )
             );
 
           case AppRoutes.profile:
