@@ -8,6 +8,7 @@ class CustomNavBar extends StatelessWidget {
   final UserEntity? user;
   final bool disableNavigation;
   final bool showHomeIcon;
+  final Function(int)? customCallback;
 
   const CustomNavBar({
     super.key,
@@ -15,6 +16,7 @@ class CustomNavBar extends StatelessWidget {
     this.user,
     this.disableNavigation = false,
     this.showHomeIcon = true,
+    this.customCallback,
   });
 
   @override
@@ -72,6 +74,10 @@ class CustomNavBar extends StatelessWidget {
 
     return InkWell(
       onTap: disableNavigation ? null : () {
+        if (customCallback != null && customCallback!(index)) {
+          return;
+        }
+        
         if (!isSelected) {
           String destination = route;
           

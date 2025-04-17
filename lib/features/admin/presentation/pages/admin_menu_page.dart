@@ -21,49 +21,61 @@ class AdminMenuPage extends StatelessWidget {
       user: user,
       showHomeIcon: false,
       currentIndex: 1,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            _buildAdminActionTile(
-              context,
-              title: 'Clear Warehouse Quantity',
-              subtitle: 'Clear warehouse import quantity data',
-              icon: Icons.delete_sweep,
-              route: AppRoutes.clearWarehouseQty,
+      body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xFF283048),
+                Color(0xFF859398),
+              ],
             ),
-            _buildAdminActionTile(
-              context,
-              title: 'Clear QC Inspection Data',
-              subtitle: 'Clear QC inspection and deduction data',
-              icon: Icons.cleaning_services,
-              route: AppRoutes.clearQcInspection,
-            ),
-            _buildAdminActionTile(
-              context,
-              title: 'Clear QC Deduction',
-              subtitle: 'Clear QC deduction code quantity',
-              icon: Icons.remove_circle,
-              route: AppRoutes.clearQcDeduction,
-            ),
-            _buildAdminActionTile(
-              context,
-              title: 'Pull QC Unchecked Data',
-              subtitle: 'Pull QC unchecked data',
-              icon: Icons.download,
-              route: AppRoutes.pullQcUnchecked,
-            ),
-            _buildAdminActionTile(
-              context,
-              title: 'Clear All Data',
-              subtitle: 'Clear all data (excluding outbound data)',
-              icon: Icons.delete_forever,
-              route: AppRoutes.clearAllData,
-              isDestructive: true,
-            ),
-          ],
+          ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              _buildAdminActionTile(
+                context,
+                title: 'Clear Warehouse Quantity',
+                subtitle: 'Clear warehouse import quantity data',
+                icon: Icons.delete_sweep,
+                route: AppRoutes.clearWarehouseQty,
+              ),
+              _buildAdminActionTile(
+                context,
+                title: 'Import Material Unchecked',
+                subtitle: 'Import material unchecked by QC',
+                icon: Icons.download,
+                route: AppRoutes.pullQcUnchecked,
+              ),
+              _buildAdminActionTile(
+                context,
+                title: 'Clear QC Inspected',
+                subtitle: 'Clear QC inspection and deduction data',
+                icon: Icons.cleaning_services,
+                route: AppRoutes.clearQcInspection,
+              ),
+              _buildAdminActionTile(
+                context,
+                title: 'Clear QC Deducted',
+                subtitle: 'Clear QC deduction code quantity',
+                icon: Icons.remove_circle,
+                route: AppRoutes.clearQcDeduction,
+              ),
+              _buildAdminActionTile(
+                context,
+                title: 'Clear All Data',
+                subtitle: 'Clear all data (excluding outbound data)',
+                icon: Icons.delete_forever,
+                route: AppRoutes.clearAllData,
+                isDestructive: true,
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
   
@@ -79,6 +91,7 @@ class AdminMenuPage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
+      color:Color(0xFFEAEAEA),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         leading: Container(
