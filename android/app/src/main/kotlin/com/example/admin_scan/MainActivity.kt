@@ -38,46 +38,47 @@ class MainActivity : FlutterActivity() {
             // Log all extras in detail
             intent.extras?.let { bundle ->
                 Log.d("MainActivity", "Bundle contains ${bundle.size()} items")
-                bundle.keySet()?.forEach { key ->
-                    when {
-                        bundle.getString(key) != null -> Log.d("MainActivity", "String: $key = ${bundle.getString(key)}")
-                        bundle.getByteArray(key) != null -> Log.d("MainActivity", "ByteArray: $key = ${String(bundle.getByteArray(key)!!)}")
-                        else -> Log.d("MainActivity", "Other: $key = ${bundle.getString(key)}")
+                
+                // Try to get scan data from DataWedge first
+                val scanData = when {
+                    // Try DataWedge string data first
+                    bundle.containsKey("com.ubx.datawedge.data_string") ->
+                        bundle.getString("com.ubx.datawedge.data_string")
+                    
+                    // Try DataWedge raw data
+                    bundle.containsKey("com.ubx.datawedge.data_raw") ->
+                        bundle.getByteArray("com.ubx.datawedge.data_raw")?.let { String(it) }
+                    
+                    // Check for byte array data
+                    intent.hasExtra("barcode_values") ->
+                        intent.getByteArrayExtra("barcode_values")?.let { String(it) }
+                    
+                    // Check for bundle data
+                    intent.hasExtra("data_bundle") ->
+                        intent.getBundleExtra("data_bundle")?.getString("barcode_data")
+                    
+                    // Try other common string extras as fallback
+                    else -> {
+                        intent.getStringExtra("scan_data")
+                            ?: intent.getStringExtra("barcode_string")
+                            ?: intent.getStringExtra("urovo.rcv.message")
+                            ?: intent.getStringExtra("scannerdata")
+                            ?: intent.getStringExtra("data")
+                            ?: intent.getStringExtra("decode_data")
+                            ?: intent.getStringExtra("data_string")
+                            ?: intent.getStringExtra("scan_result")
+                            ?: intent.getStringExtra("SCAN_BARCODE1")
                     }
                 }
-            }
-            
-            // Try to get scan data from various sources
-            val scanData = when {
-                // Check for byte array data first
-                intent.hasExtra("barcode_values") -> {
-                    intent.getByteArrayExtra("barcode_values")?.let { String(it) }
-                }
-                // Check for bundle data
-                intent.hasExtra("data_bundle") -> {
-                    intent.getBundleExtra("data_bundle")?.getString("barcode_data")
-                }
-                // Check for common string extras
-                else -> {
-                    intent.getStringExtra("scan_data")
-                        ?: intent.getStringExtra("barcode_string")
-                        ?: intent.getStringExtra("urovo.rcv.message")
-                        ?: intent.getStringExtra("scannerdata")
-                        ?: intent.getStringExtra("data")
-                        ?: intent.getStringExtra("decode_data")
-                        ?: intent.getStringExtra("barcode")
-                        ?: intent.getStringExtra("data_string")
-                        ?: intent.getStringExtra("scan_result")
-                        ?: intent.getStringExtra("SCAN_BARCODE1")
-                        //?: intent.getStringExtra("com.ubx.datawedge.data_string")
-                }
-            }
                 
-            if (scanData != null) {
-                Log.d("MainActivity", "📱 Scan data found: $scanData")
-                sendScanDataToFlutter(scanData)
-            } else {
-                Log.e("MainActivity", "❌ No scan data found in intent")
+                if (scanData != null) {
+                    // Log additional scanner metadata if available
+                    val symbology = bundle.getString("com.ubx.datawedge.symbology_name")
+                    Log.d("MainActivity", "📱 Scan data found: $scanData (Type: $symbology)")
+                    sendScanDataToFlutter(scanData)
+                } else {
+                    Log.e("MainActivity", "❌ No scan data found in intent")
+                }
             }
         }
     }

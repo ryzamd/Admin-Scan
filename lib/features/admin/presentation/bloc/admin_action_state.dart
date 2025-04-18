@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/admin_action_entity.dart';
+import '../../domain/entities/scanned_data_entity.dart';
 
 abstract class AdminActionState extends Equatable {
   const AdminActionState();
@@ -83,4 +84,26 @@ class AdminActionError extends AdminActionState {
 
   @override
   List<Object> get props => [message, previousState];
+}
+
+class AdminActionDataLoading extends AdminActionState {
+  final String code;
+  
+  const AdminActionDataLoading(this.code);
+  
+  @override
+  List<Object> get props => [code];
+}
+
+class AdminActionDataLoaded extends AdminActionState {
+  final ScannedDataEntity data;
+  final String actionType;
+  
+  const AdminActionDataLoaded({
+    required this.data,
+    required this.actionType,
+  });
+  
+  @override
+  List<Object> get props => [data, actionType];
 }

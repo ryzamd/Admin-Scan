@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../entities/admin_action_entity.dart';
+import '../entities/scanned_data_entity.dart';
 
 abstract class AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> executeAction({
@@ -20,4 +21,6 @@ abstract class AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> pullQcUncheckedData(String code, String userName);
   
   Future<Either<Failure, AdminActionEntity>> clearAllData(String code, String userName);
+
+  Future<Either<Failure, ScannedDataEntity>> checkCode(String code, String userName);
 }
