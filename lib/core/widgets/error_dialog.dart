@@ -49,6 +49,9 @@ class ErrorDialog extends StatelessWidget {
         }
       },
       child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
         title: Text(
           title,
           style: const TextStyle(
@@ -69,7 +72,7 @@ class ErrorDialog extends StatelessWidget {
                 });
               }
             },
-            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent)),
+            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.redAccent)),
           ),
         ],
       ),

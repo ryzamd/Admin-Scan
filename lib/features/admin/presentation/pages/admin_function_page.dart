@@ -6,6 +6,7 @@ import '../../../../core/constants/key_code_constants.dart';
 import '../../../../core/services/navigation_service.dart';
 import '../../../../core/services/scan_service.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
+import '../../../../core/widgets/dropdown_menu_button.dart';
 import '../../../../core/widgets/error_dialog.dart';
 import '../../../../core/widgets/loading_dialog.dart';
 import '../../../../core/widgets/notification_dialog.dart';
@@ -128,7 +129,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
       debugPrint("QR DEBUG: ⚠️ Camera initialization error: $e");
       ErrorDialog.showAsync(
         context,
-        title: 'Camera Error',
+        title: 'CAMERA ERROR',
         message: "Camera initialization error: $e",
       );
     }
@@ -261,7 +262,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
             
             NotificationDialog.show(
               context,
-              title: 'Success',
+              title: 'SUCCESS',
               message: widget.successMessage,
               icon: Icons.check_circle_outline,
               iconColor: Colors.green,
@@ -275,7 +276,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
             
             ErrorDialog.showAsync(
               context,
-              title: 'Error',
+              title: 'ERROR',
               message: state.message,
             );
           }
@@ -340,7 +341,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                 
                       if (state is AdminActionDataLoaded) ...[
                         SizedBox(
-                          height: 230,
+                          height: 300,
                           child: ScannedData(
                             data: state.data,
                             actionType: widget.actionType,
@@ -350,7 +351,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                       ] else if ((state is! AdminActionDataLoading)) ...[
                         Container(
                           width: double.infinity,
-                          height: 230,
+                          height: 300,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -415,55 +416,26 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
               ),
             ),
             actions: [
-              if (_showDataView)
-                IconButton(
-                  icon: const Icon(Icons.calendar_month, color: Colors.white),
-                  onPressed: () {
-                    _selectDate(context);
-                  },
-                ),
-              if (_showDataView)
-                IconButton(
-                  icon: const Icon(Icons.refresh, color: Colors.white),
-                  onPressed: () {
-                    context.read<HomeDataBloc>().refreshData();
-                  },
-                ),
-              if (!_showDataView)
-                IconButton(
-                  icon: Icon(
-                    _torchEnabled ? Icons.flash_on : Icons.flash_off,
-                    color: _torchEnabled ? Colors.yellow : Colors.white,
-                  ),
-                  onPressed: _toggleTorch,
-                ),
-              if (!_showDataView)
-                IconButton(
-                  icon: const Icon(Icons.flip_camera_ios, color: Colors.white),
-                  onPressed: _switchCamera,
-                ),
-              if (!_showDataView)
-                IconButton(
-                  icon: Icon(
-                    _cameraActive ? Icons.stop : Icons.play_arrow,
-                    color: _cameraActive ? Colors.red : Colors.white,
-                  ),
-                  onPressed: _toggleCamera,
-                ),
-              if (!_showDataView)
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.white),
-                  onPressed: () {
-                      ConfirmationDialog.showAsync(
-                      context,
-                      title: 'Clear Data',
-                      message: 'Are you sure you want to clear all data?',
-                      confirmColor: Colors.redAccent,
-                      onConfirm: _clearData,
-                      onCancel: () {},
-                    );
-                  }
-                ),
+              AppBarActionsButton(
+                isDataView: _showDataView,
+                isCameraActive: _cameraActive,
+                isTorchEnabled: _torchEnabled,
+                onCalendarTap: () => _selectDate(context),
+                onRefreshTap: () => context.read<HomeDataBloc>().refreshData(),
+                onTorchToggle: _toggleTorch,
+                onCameraFlip: _switchCamera,
+                onCameraToggle: _toggleCamera,
+                onClearData: () {
+                  ConfirmationDialog.showAsync(
+                    context,
+                    title: 'CLEAR DATA',
+                    message: 'Are you sure you want to clear all data?',
+                    confirmColor: Colors.redAccent,
+                    onConfirm: _clearData,
+                    onCancel: () {},
+                  );
+                },
+              ),
             ],
           );
         },

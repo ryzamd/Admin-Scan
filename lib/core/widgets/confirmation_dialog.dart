@@ -86,7 +86,7 @@ class ConfirmationDialog extends StatelessWidget {
             cancelText,
             style: const TextStyle(
               color: Colors.grey,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ),
@@ -106,7 +106,7 @@ class ConfirmationDialog extends StatelessWidget {
           child: Text(
             confirmText,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -38,36 +38,31 @@ class AdminMenuPage extends StatelessWidget {
             children: [
               _buildAdminActionTile(
                 context,
-                title: 'Clear Warehouse Quantity',
-                subtitle: 'Clear warehouse import quantity data',
+                title: '清除入庫資料',
                 icon: Icons.delete_sweep,
                 route: AppRoutes.clearWarehouseQty,
               ),
               _buildAdminActionTile(
                 context,
-                title: 'Import Material Unchecked',
-                subtitle: 'Import material unchecked by QC',
+                title: '導入未質檢資料',
                 icon: Icons.download,
                 route: AppRoutes.pullQcUnchecked,
               ),
               _buildAdminActionTile(
                 context,
-                title: 'Clear QC Inspected',
-                subtitle: 'Clear QC inspection and deduction data',
+                title: '清除質檢與扣碼資料',
                 icon: Icons.cleaning_services,
                 route: AppRoutes.clearQcInspection,
               ),
               _buildAdminActionTile(
                 context,
-                title: 'Clear QC Deducted',
-                subtitle: 'Clear QC deduction code quantity',
+                title: '清除扣碼資料',
                 icon: Icons.remove_circle,
                 route: AppRoutes.clearQcDeduction,
               ),
               _buildAdminActionTile(
                 context,
-                title: 'Clear All Data',
-                subtitle: 'Clear all data (excluding outbound data)',
+                title: '清除全部資料（不含已出庫)',
                 icon: Icons.delete_forever,
                 route: AppRoutes.clearAllData,
                 isDestructive: true,
@@ -82,7 +77,6 @@ class AdminMenuPage extends StatelessWidget {
   Widget _buildAdminActionTile(
     BuildContext context, {
     required String title,
-    required String subtitle,
     required IconData icon,
     required String route,
     bool isDestructive = false,
@@ -113,7 +107,6 @@ class AdminMenuPage extends StatelessWidget {
             color: isDestructive ? Colors.red.shade800 : Colors.black87,
           ),
         ),
-        subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
           Navigator.pushNamed(

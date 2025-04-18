@@ -44,8 +44,8 @@ class ScannedData extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           
-          _buildDataRow('Product:', data.mName),
-          _buildDataRow('Project Code:', data.mPrjcode),
+          _buildDataRow('名稱:', data.mName),
+          _buildDataRow('指令號:', data.mPrjcode),
           
           ...buildActionSpecificFields(),
         ],
@@ -57,8 +57,8 @@ class ScannedData extends StatelessWidget {
     switch (actionType) {
       case 'clear_warehouse_qty':
         return [
-          _buildDataRow('WH Qty Import:', data.zcWarehouseQtyInt.toString()),
-          _buildDataRow('WH Qty Export:', data.zcWarehouseQtyOut.toString()),
+          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
+          _buildDataRow('出庫:', data.zcWarehouseQtyOut.toString()),
           if (data.zcUpInQtyTime != null)
             _buildDataRow('In Qty Time:', data.zcUpInQtyTime!),
         ];
@@ -66,8 +66,8 @@ class ScannedData extends StatelessWidget {
       case 'clear_qc_inspection':
       case 'clear_qc_deduction':
         return [
-          _buildDataRow('QC Qty In:', data.qcQtyIn.toString()),
-          _buildDataRow('QC Qty Out:', data.qcQtyOut.toString()),
+          _buildDataRow('質檢:', data.qcQtyIn.toString()),
+          _buildDataRow('扣碼:', data.qcQtyOut.toString()),
           if (data.qcUpInQtyTime != null)
             _buildDataRow('QC Up In Qty Time:', data.qcUpInQtyTime!),
         ];
@@ -75,17 +75,17 @@ class ScannedData extends StatelessWidget {
       case 'pull_qc_unchecked':
         return [
           _buildDataRow('Quantity:', data.mQty.toString()),
-          _buildDataRow('WH Qty Import:', data.zcWarehouseQtyInt.toString()),
+          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
           if (data.zcInQcQtyTime != null)
             _buildDataRow('In QC Qty Time:', data.zcInQcQtyTime!),
         ];
         
       case 'clear_all_data':
         return [
-          _buildDataRow('QC Qty In:', data.qcQtyIn.toString()),
-          _buildDataRow('QC Qty Out:', data.qcQtyOut.toString()),
-          _buildDataRow('WH Qty Import:', data.zcWarehouseQtyInt.toString()),
-          _buildDataRow('WH Qty Export:', data.zcWarehouseQtyOut.toString()),
+          _buildDataRow('質檢:', data.qcQtyIn.toString()),
+          _buildDataRow('扣碼:', data.qcQtyOut.toString()),
+          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
+          _buildDataRow('出庫:', data.zcWarehouseQtyOut.toString()),
         ];
         
       default:
@@ -113,7 +113,7 @@ class ScannedData extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              maxLines: 2,
+              maxLines: 3,
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black87,

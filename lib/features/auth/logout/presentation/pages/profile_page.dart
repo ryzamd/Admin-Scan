@@ -49,17 +49,9 @@ class ProfilePage extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
                     ),
                     child: CircleAvatar(
-                      radius: 60,
+                      radius: 65,
                       backgroundColor: Color(0xFFFF8008),
                       child: Container(
                         padding: const EdgeInsets.all(8.0),

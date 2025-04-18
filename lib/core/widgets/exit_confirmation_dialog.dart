@@ -31,7 +31,7 @@ class ExitConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
       ),
       title: const Text(
         'EXIT',
@@ -41,11 +41,11 @@ class ExitConfirmationDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: onCancel ?? () => Navigator.of(context).pop(),
-          child: const Text('Cancel', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          child: const Text('Cancel', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold)),
         ),
         TextButton(
           onPressed: () => SystemNavigator.pop(),
-          child: const Text('OK', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          child: const Text('OK', style: TextStyle(color: Colors.redAccent, fontSize: 14, fontWeight: FontWeight.bold)),
         ),
       ],
     );
