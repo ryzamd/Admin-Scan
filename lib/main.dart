@@ -19,16 +19,17 @@ void main() async {
   runApp( MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
    MyApp({super.key});
 
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   final BackButtonService _backButtonService = BackButtonService();
  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: _navigatorKey,
+      navigatorKey: navigatorKey,
       title: 'Pro Well',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

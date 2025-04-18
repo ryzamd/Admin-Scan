@@ -93,3 +93,12 @@ class ClearAllDataEvent extends AdminActionEvent {
   @override
   List<Object> get props => [code];
 }
+
+class CheckCodeEvent extends AdminActionEvent {
+  final String code;
+
+  const CheckCodeEvent(this.code);
+
+  @override
+  List<Object> get props => [code];
+}

@@ -6,11 +6,10 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/services/admin_action_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../models/admin_action_model.dart';
+import '../models/check_code_response.dart';
+import '../models/scanned_data_model.dart';
 
 abstract class AdminActionDataSource {
-  /// Execute an admin action with the given parameters
-  ///
-  /// Throws [ServerException] if any error occurs
   Future<AdminActionModel> executeAction({
     required String endpoint,
     required String codeParamName,
@@ -24,6 +23,7 @@ abstract class AdminActionDataSource {
    Future<AdminActionModel> clearQcDeductionCode(String code, String userName);
    Future<AdminActionModel> pullQcUncheckedData(String code, String userName);
    Future<AdminActionModel> clearAllData(String code, String userName);
+   Future<ScannedDataModel> checkCode(String code, String userName);
 }
 
 class AdminActionDataSourceImpl implements AdminActionDataSource {
@@ -119,5 +119,37 @@ class AdminActionDataSourceImpl implements AdminActionDataSource {
       code: code,
       userName: userName,
     );
+  }
+  
+  @override
+  Future<ScannedDataModel> checkCode(String code, String userName) async {
+    try {
+      final response = await dio.post(
+        ApiConstants.checkCodeUrl,
+        data: {
+          'code': code,
+          'user_name': userName,
+        },
+      );
+      
+      debugPrint('Check code response: ${response.statusCode}, ${response.data}');
+      
+      if (response.statusCode == 200) {
+        if (response.data['message'] == 'Success') {
+          final checkCodeResponse = CheckCodeResponse.fromJson(response.data);
+          return checkCodeResponse.data;
+        } else {
+          throw ServerException(response.data['message'] ?? 'Failed to check code');
+        }
+      } else {
+        throw ServerException('Server returned error code: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      debugPrint('DioException in checkCode: ${e.message}');
+      throw ServerException(e.message ?? 'Network error');
+    } catch (e) {
+      debugPrint('Unexpected error in checkCode: $e');
+      throw ServerException(e.toString());
+    }
   }
 }

@@ -20,6 +20,7 @@ import '../bloc/admin_action_bloc.dart';
 import '../bloc/admin_action_event.dart';
 import '../bloc/admin_action_state.dart';
 import '../widgets/admin_scanner_widget.dart';
+import '../widgets/scanned_data_widget.dart';
 
 class AdminFunctionPageWithHomeData extends StatefulWidget {
   final UserEntity user;
@@ -197,8 +198,8 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
     
     ConfirmationDialog.showAsync(
       context,
-      title: 'Confirm Action',
-      message: 'Are you sure you want to perform this action on code: $code?',
+      title: 'CONFIRM ACTION',
+      message: 'Are you sure you want to perform this action ?',
       confirmColor: Colors.redAccent,
       onConfirm: () {
         context.read<AdminActionBloc>().add(ExecuteActionEvent(
@@ -337,43 +338,49 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                 
                       const SizedBox(height: 10),
                 
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.05),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
+                      if (state is AdminActionDataLoaded) ...[
+                        SizedBox(
+                          height: 230,
+                          child: ScannedData(
+                            data: state.data,
+                            actionType: widget.actionType,
+                            onExecute: () => _executeAction(state.data.code),
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Scanned Code:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black87,
+                      ] else if ((state is! AdminActionDataLoading)) ...[
+                        Container(
+                          width: double.infinity,
+                          height: 230,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.05),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                             _currentCode.isEmpty ? 'No code scanned yet' : _currentCode,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color:  _currentCode.isEmpty ? Colors.grey : Colors.black,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 12),
+                              Text(
+                                  'Scan a QR code to get item details',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                 
                       const Spacer(),
                 
@@ -393,56 +400,6 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                         ),
                       ),
                 
-                      const Spacer(),
-                
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildEnhancedButton(
-                            icon: Icon(
-                              _torchEnabled ? Icons.flash_on : Icons.flash_off,
-                              color: _torchEnabled ? Colors.yellow : Colors.white,
-                              size: 28,
-                            ),
-                            onPressed: _cameraActive ? _toggleTorch : null,
-                            label: 'Flash',
-                            color: _torchEnabled ? Colors.amber.shade700 : Colors.black12,
-                          ),
-                          const SizedBox(width: 16),
-                          _buildEnhancedButton(
-                            icon: const Icon(
-                              Icons.flip_camera_ios,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            onPressed: _cameraActive ? _switchCamera : null,
-                            label: 'Flip',
-                            color: Colors.blue.shade700,
-                          ),
-                          const SizedBox(width: 16),
-                          _buildEnhancedButton(
-                            icon: Icon(
-                              _cameraActive ? Icons.stop : Icons.play_arrow,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            onPressed: _toggleCamera,
-                            label: _cameraActive ? 'Stop' : 'Start',
-                            color: _cameraActive ? Colors.red.shade700 : Colors.green.shade700,
-                          ),
-                          const SizedBox(width: 16),
-                          _buildEnhancedButton(
-                            icon: const Icon(
-                              Icons.clear,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            onPressed: _currentCode.isNotEmpty ? _clearData : null,
-                            label: 'Clear',
-                            color: Colors.redAccent.shade700.withValues(alpha: 0.5),
-                          ),
-                        ],
-                      ),
                     ] else ...[
                       Expanded(
                         child: HomeDataComponent(
@@ -472,6 +429,41 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                     context.read<HomeDataBloc>().refreshData();
                   },
                 ),
+              if (!_showDataView)
+                IconButton(
+                  icon: Icon(
+                    _torchEnabled ? Icons.flash_on : Icons.flash_off,
+                    color: _torchEnabled ? Colors.yellow : Colors.white,
+                  ),
+                  onPressed: _toggleTorch,
+                ),
+              if (!_showDataView)
+                IconButton(
+                  icon: const Icon(Icons.flip_camera_ios, color: Colors.white),
+                  onPressed: _switchCamera,
+                ),
+              if (!_showDataView)
+                IconButton(
+                  icon: Icon(
+                    _cameraActive ? Icons.stop : Icons.play_arrow,
+                    color: _cameraActive ? Colors.red : Colors.white,
+                  ),
+                  onPressed: _toggleCamera,
+                ),
+              if (!_showDataView)
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.white),
+                  onPressed: () {
+                      ConfirmationDialog.showAsync(
+                      context,
+                      title: 'Clear Data',
+                      message: 'Are you sure you want to clear all data?',
+                      confirmColor: Colors.redAccent,
+                      onConfirm: _clearData,
+                      onCancel: () {},
+                    );
+                  }
+                ),
             ],
           );
         },
@@ -479,52 +471,6 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
     );
   }
   
-  Widget _buildEnhancedButton({
-    required Widget icon,
-    required VoidCallback? onPressed,
-    required String label,
-    required Color color,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: onPressed == null ? color.withValues(alpha: 0.5) : color,
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onPressed,
-              borderRadius: BorderRadius.circular(28),
-              child: Center(child: icon),
-            ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: onPressed == null ? Colors.grey : Colors.black87,
-          ),
-        ),
-      ],
-    );
-  }
-
   Future<void> _selectDate(BuildContext context) async {
 
     final currentState = context.read<HomeDataBloc>().state;

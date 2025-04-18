@@ -150,7 +150,7 @@ class HomeDataConfig {
       columnFlex: {
         COL_NAME: 2,
         COL_PROJECT_CODE: 2,
-        COL_QTY: 1,
+        COL_QTY: 2,
         COL_WAREHOUSE_QTY_INT: 2,
         COL_IN_QC_QTY_TIME: 2,
         COL_QTY_STATE: 2,

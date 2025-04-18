@@ -23,17 +23,18 @@ class ErrorDialog extends StatelessWidget {
     if (!_isShowing && context.mounted) {
       _isShowing = true;
       
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (dialogContext) => ErrorDialog(
-          title: title,
-          message: message,
-          onDismiss: onDismiss,
-        ),
-      ).then((_) {
-
-        _isShowing = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) => ErrorDialog(
+            title: title,
+            message: message,
+            onDismiss: onDismiss,
+          ),
+        ).then((_) {
+          _isShowing = false;
+        });
       });
     }
   }

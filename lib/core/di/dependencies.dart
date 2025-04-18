@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/admin/data/datasources/admin_action_datasource.dart';
 import '../../features/admin/data/repositories/admin_action_repository_impl.dart';
 import '../../features/admin/domain/repositories/admin_action_repository.dart';
+import '../../features/admin/domain/usecases/check_code.dart';
 import '../../features/admin/domain/usecases/execute_admin_action.dart';
 import '../../features/admin/presentation/bloc/admin_action_bloc.dart';
 import '../../features/auth/login/data/data_sources/login_remote_datasource.dart';
@@ -114,13 +115,6 @@ Future<void> homeDataFeatureAsync() async {
       secureStorageService: sl(),
     ),
   );
-
-  // sl.registerFactoryParam<HomeDataBloc, String, UserEntity>(
-  //   (functionType, user) => HomeDataBloc(
-  //     getHomeData: sl<GetHomeData>(),
-  //     user: user,
-  //   ),
-  // );
 }
 
 Future<void> _initAdminActionFeatureAsync() async {
@@ -145,6 +139,7 @@ Future<void> _initAdminActionFeatureAsync() async {
   sl.registerLazySingleton(() => ClearQcDeductionCode(sl<AdminActionRepository>()));
   sl.registerLazySingleton(() => PullQcUncheckedData(sl<AdminActionRepository>()));
   sl.registerLazySingleton(() => ClearAllData(sl<AdminActionRepository>()));
+  sl.registerLazySingleton(() => CheckCode(sl<AdminActionRepository>()));
   
   sl.registerFactoryParam<AdminActionBloc, UserEntity, void>(
     (user, _) => AdminActionBloc(
@@ -156,6 +151,7 @@ Future<void> _initAdminActionFeatureAsync() async {
       clearAllData: sl<ClearAllData>(),
       connectionChecker: sl<InternetConnectionChecker>(),
       currentUser: user,
+      checkCode: sl<CheckCode>(),
     ),
   );
 }

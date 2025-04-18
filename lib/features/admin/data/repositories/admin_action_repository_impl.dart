@@ -1,5 +1,7 @@
 // lib/features/admin/data/repositories/admin_action_repository_impl.dart
+import 'package:admin_scan/features/admin/domain/entities/scanned_data_entity.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/network/network_infor.dart';
@@ -118,6 +120,27 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
         return Left(ServerFailure(e.message));
       } catch (e) {
         return Left(ServerFailure(e.toString()));
+      }
+    } else {
+      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ScannedDataEntity>> checkCode(String code, String userName) async {
+    if (await networkInfo.isConnected) {
+      try {
+
+        final result = await dataSource.checkCode(code, userName);
+        debugPrint('Check code result: $result');
+        return Right(result);
+
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
+        
       }
     } else {
       return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));

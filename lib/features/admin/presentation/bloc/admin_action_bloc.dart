@@ -1,9 +1,11 @@
-// lib/features/admin/presentation/bloc/admin_action_bloc.dart
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../../../main.dart' as global;
 import '../../../auth/login/domain/entities/user_entity.dart';
+import '../../domain/usecases/check_code.dart';
 import '../../domain/usecases/execute_admin_action.dart';
 import 'admin_action_event.dart';
 import 'admin_action_state.dart';
@@ -17,6 +19,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   final ClearAllData clearAllData;
   final InternetConnectionChecker connectionChecker;
   final UserEntity currentUser;
+  final CheckCode checkCode;
   
   MobileScannerController? scannerController;
 
@@ -35,6 +38,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     required this.clearAllData,
     required this.connectionChecker,
     required this.currentUser,
+    required this.checkCode,
   }) : super(AdminActionInitial()) {
     on<InitializeScannerEvent>(_onInitializeScanner);
     on<ScanBarcodeEvent>(_onScanBarcode);
@@ -46,6 +50,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     on<ClearQcDeductionCodeEvent>(_onClearQcDeductionCode);
     on<PullQcUncheckedDataEvent>(_onPullQcUncheckedData);
     on<ClearAllDataEvent>(_onClearAllData);
+    on<CheckCodeEvent>(_onCheckCode);
     
     connectionChecker.onStatusChange.listen((status) {
       if (status == InternetConnectionStatus.disconnected) {
@@ -76,6 +81,8 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     debugPrint('Barcode scanned: ${event.barcode}');
     
     emit(AdminActionCodeScanned(event.barcode));
+
+    add(CheckCodeEvent(event.barcode));
   }
   
   void _onHardwareScan(
@@ -85,6 +92,8 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     debugPrint('Hardware scan detected: ${event.scannedData}');
     
     emit(AdminActionCodeScanned(event.scannedData));
+
+    add(CheckCodeEvent(event.scannedData));
   }
   
   void _onClearScannedData(
@@ -319,5 +328,61 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   Future<void> close() {
     scannerController?.dispose();
     return super.close();
+  }
+
+  Future<void> _onCheckCode(
+    CheckCodeEvent event,
+    Emitter<AdminActionState> emit,
+  ) async {
+    debugPrint('Checking code: ${event.code}');
+    
+    if (!(await connectionChecker.hasConnection)) {
+      emit(AdminActionError(
+        message: 'No internet connection. Please check your network.',
+        previousState: state,
+      ));
+      return;
+    }
+    
+    
+    final result = await checkCode(
+      CheckCodeParams(
+        code: event.code,
+        userName: currentUser.name,
+      ),
+    );
+    
+    result.fold(
+      (failure) {
+        emit(AdminActionError(
+          message: failure.message,
+          previousState: state,
+        ));
+      },
+      (data) {
+        String actionType = '';
+        
+        if (state is AdminActionScanning) {
+          final route = ModalRoute.of(global.navigatorKey.currentContext!)?.settings.name;
+          
+          if (route?.contains('clear_warehouse_qty') ?? false) {
+            actionType = ACTION_CLEAR_WAREHOUSE_QTY;
+          } else if (route?.contains('clear_qc_inspection') ?? false) {
+            actionType = ACTION_CLEAR_QC_INSPECTION;
+          } else if (route?.contains('clear_qc_deduction') ?? false) {
+            actionType = ACTION_CLEAR_QC_DEDUCTION;
+          } else if (route?.contains('pull_qc_unchecked') ?? false) {
+            actionType = ACTION_PULL_QC_UNCHECKED;
+          } else if (route?.contains('clear_all_data') ?? false) {
+            actionType = ACTION_CLEAR_ALL_DATA;
+          }
+        }
+        
+        emit(AdminActionDataLoaded(
+          data: data,
+          actionType: actionType,
+        ));
+      },
+    );
   }
 }
