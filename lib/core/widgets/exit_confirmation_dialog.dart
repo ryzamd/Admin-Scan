@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../constants/app_colors.dart';
+
 class ExitConfirmationDialog extends StatelessWidget {
   static bool _isShowing = false;
   
@@ -35,17 +37,17 @@ class ExitConfirmationDialog extends StatelessWidget {
       ),
       title: const Text(
         'EXIT',
-        style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 18),
+        style: TextStyle(color: AppColors.error, fontWeight: FontWeight.bold, fontSize: 18),
       ),
       content: const Text('Are you sure to exit the application?'),
       actions: [
         TextButton(
           onPressed: onCancel ?? () => Navigator.of(context).pop(),
-          child: const Text('Cancel', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold)),
+          child: const Text('Cancel', style: TextStyle(color: AppColors.blackCommon, fontSize: 14, fontWeight: FontWeight.bold)),
         ),
         TextButton(
           onPressed: () => SystemNavigator.pop(),
-          child: const Text('OK', style: TextStyle(color: Colors.redAccent, fontSize: 14, fontWeight: FontWeight.bold)),
+          child: const Text('OK', style: TextStyle(color: AppColors.error, fontSize: 14, fontWeight: FontWeight.bold)),
         ),
       ],
     );

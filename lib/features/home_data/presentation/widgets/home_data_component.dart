@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/auth/auth_repository.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/di/dependencies.dart' as di;
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../../config/home_data_config.dart';
@@ -80,11 +81,11 @@ class _HomeDataComponentState extends State<HomeDataComponent> {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.whiteCommon,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: AppColors.blackCommon.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

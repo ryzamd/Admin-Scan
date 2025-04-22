@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/di/dependencies.dart' as di;
 import '../../../../../core/widgets/error_dialog.dart';
@@ -221,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withValues(alpha: 0.1),
+                              AppColors.blackCommon.withValues(alpha: 0.1),
                             ],
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/di/dependencies.dart' as di;
 import '../../../../../core/services/navigation_service.dart';
@@ -72,11 +73,11 @@ class ProfilePage extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.whiteCommon,
                       shadows: [
                         Shadow(
                           blurRadius: 4.0,
-                          color: Colors.black26,
+                          color: AppColors.blackCommon,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -88,7 +89,7 @@ class ProfilePage extends StatelessWidget {
                     user.userId,
                     style: const TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
+                      color: AppColors.whiteCommon,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -97,14 +98,14 @@ class ProfilePage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: AppColors.greyCommon.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       user.role == UserRole.warehouseAdmin ? '管理員' : 'UNKNOW',
                       style: const TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: AppColors.whiteCommon,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w500,
                       ),
@@ -120,7 +121,7 @@ class ProfilePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.25),
+                          color: AppColors.blackCommon.withValues(alpha: 0.25),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -129,8 +130,8 @@ class ProfilePage extends StatelessWidget {
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Color(0xFFFFB4C2),
-                          Color(0xFFDA7297),
+                          AppColors.buttonLogoutGradient1,
+                          AppColors.buttonLogoutGradient2,
                         ],
                       ),
                     ),

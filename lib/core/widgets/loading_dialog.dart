@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class LoadingDialog extends StatelessWidget {
   static bool _isShowing = false;
   
@@ -40,7 +42,7 @@ class LoadingDialog extends StatelessWidget {
         child: Center(
           child: CircularProgressIndicator(
             strokeWidth: 4,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
         ),
       ),

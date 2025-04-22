@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../../core/constants/app_colors.dart';
+
 class AdminScannerWidget extends StatelessWidget {
   final MobileScannerController? controller;
   final Function(BarcodeCapture)? onDetect;
@@ -25,7 +27,7 @@ class AdminScannerWidget extends StatelessWidget {
           height: 150,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade700, width: 2),
+            border: Border.all(color: AppColors.greyCommon.withValues(alpha: 0.7), width: 2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: ClipRRect(
@@ -41,11 +43,11 @@ class AdminScannerWidget extends StatelessWidget {
                   },
                   placeholderBuilder: (context, child) {
                     return Container(
-                      color: Colors.black,
+                      color: AppColors.blackCommon,
                       child: const Center(
                         child: Text(
                           "Initializing camera...",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: AppColors.whiteCommon),
                         ),
                       ),
                     );
@@ -53,27 +55,27 @@ class AdminScannerWidget extends StatelessWidget {
                   errorBuilder: (context, error, child) {
                     debugPrint("QR DEBUG: Camera error: ${error.errorCode}");
                     return Container(
-                      color: Colors.black,
+                      color: AppColors.blackCommon,
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.error, color: Colors.red, size: 50),
+                            const Icon(Icons.error, color: AppColors.redCommon, size: 50),
                             Text(
                               "Camera error: ${error.errorCode}",
                               textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.red),
+                              style: const TextStyle(color: AppColors.redCommon),
                             ),
                             const SizedBox(height: 8),
                             ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: const WidgetStatePropertyAll(Color(0xFFFF9D23)),
+                                backgroundColor: const WidgetStatePropertyAll(AppColors.warning),
                                 shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                               onPressed: () {
                                 controller!.stop();
                                 controller!.start();
                               },
-                              child: const Text("Try Again", style: TextStyle(color: Color(0xFFFEF9E1)),),
+                              child: const Text("Try Again", style: TextStyle(color: AppColors.whiteCommon),),
                             ),
                           ],
                         ),
@@ -82,13 +84,13 @@ class AdminScannerWidget extends StatelessWidget {
                   },
                 )
               : Container(
-                  color: Colors.black,
+                  color: AppColors.blackCommon,
                   child: const Center(
                     child: Text(
                       "Camera is off",
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: AppColors.whiteCommon,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -137,10 +139,10 @@ class AdminScannerWidget extends StatelessWidget {
       height: 20,
       decoration: BoxDecoration(
         border: Border(
-          top: isTop ? const BorderSide(color: Colors.redAccent, width: 4) : BorderSide.none,
-          bottom: !isTop ? const BorderSide(color: Colors.redAccent, width: 4) : BorderSide.none,
-          left: isLeft ? const BorderSide(color: Colors.redAccent, width: 4) : BorderSide.none,
-          right: !isLeft ? const BorderSide(color: Colors.redAccent, width: 4) : BorderSide.none,
+          top: isTop ? const BorderSide(color: AppColors.redCommon, width: 4) : BorderSide.none,
+          bottom: !isTop ? const BorderSide(color: AppColors.redCommon, width: 4) : BorderSide.none,
+          left: isLeft ? const BorderSide(color: AppColors.redCommon, width: 4) : BorderSide.none,
+          right: !isLeft ? const BorderSide(color: AppColors.redCommon, width: 4) : BorderSide.none,
         ),
       ),
     );

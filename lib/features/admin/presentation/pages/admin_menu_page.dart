@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_routes.dart';
 import '../../../../core/services/navigation_service.dart';
 import '../../../../core/widgets/scafford_custom.dart';
@@ -91,12 +92,12 @@ class AdminMenuPage extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isDestructive ? Colors.red.withValues(alpha: 0.1) : Colors.blue.withValues(alpha: 0.1),
+            color: isDestructive ? AppColors.redCommon.withValues(alpha: 0.1) : AppColors.blueCommon.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
-            color: isDestructive ? Colors.red : Colors.blue,
+            color: isDestructive ? AppColors.redCommon : AppColors.blueCommon,
             size: 28,
           ),
         ),
@@ -104,7 +105,7 @@ class AdminMenuPage extends StatelessWidget {
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: isDestructive ? Colors.red.shade800 : Colors.black87,
+            color: isDestructive ? AppColors.redCommon.withValues(alpha: 0.8) : AppColors.blackCommon,
           ),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),

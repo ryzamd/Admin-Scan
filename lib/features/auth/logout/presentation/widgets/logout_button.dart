@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../../core/widgets/error_dialog.dart';
@@ -44,7 +45,7 @@ class LogoutButton extends StatelessWidget {
               message: 'Are you sure you want to log out?',
               confirmText: 'Logout',
               cancelText: 'Cancel',
-              confirmColor: Colors.red,
+              confirmColor: AppColors.alert,
               onConfirm: () {
                 context.read<LogoutBloc>().add(LogoutButtonPressed());
               },
@@ -60,7 +61,7 @@ class LogoutButton extends StatelessWidget {
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: AppColors.whiteCommon,
                       strokeWidth: 2,
                     ),
                   );
@@ -68,7 +69,7 @@ class LogoutButton extends StatelessWidget {
                 return const Text(
                   'LOGOUT',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.whiteCommon,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class ErrorDialog extends StatelessWidget {
   static bool _isShowing = false;
   
@@ -55,7 +57,7 @@ class ErrorDialog extends StatelessWidget {
         title: Text(
           title,
           style: const TextStyle(
-            color: Colors.red,
+            color: AppColors.error,
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
@@ -72,7 +74,7 @@ class ErrorDialog extends StatelessWidget {
                 });
               }
             },
-            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.redAccent)),
+            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.error)),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class NotificationDialog extends StatelessWidget {
   static bool _isShowing = false;
   
@@ -17,7 +19,7 @@ class NotificationDialog extends StatelessWidget {
     this.buttonText = 'OK',
     this.onDismiss,
     this.icon = Icons.notifications,
-    this.iconColor = Colors.blue,
+    this.iconColor = AppColors.primary,
   });
   
   static void show(
@@ -27,7 +29,7 @@ class NotificationDialog extends StatelessWidget {
     String buttonText = 'OK',
     VoidCallback? onDismiss,
     IconData icon = Icons.notifications,
-    Color iconColor = Colors.blue,
+    Color iconColor = AppColors.primary,
   }) {
 
     if (!_isShowing && context.mounted) {
@@ -92,7 +94,7 @@ class NotificationDialog extends StatelessWidget {
           },
           child: Text(
             buttonText,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.success),
           ),
         ),
       ],

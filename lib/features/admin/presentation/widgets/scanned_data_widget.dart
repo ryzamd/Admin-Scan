@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../domain/entities/scanned_data_entity.dart';
 
 class ScannedData extends StatelessWidget {
@@ -20,11 +22,11 @@ class ScannedData extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.whiteCommon,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.blackCommon.withValues(alpha: 0.05),
             spreadRadius: 1,
             blurRadius: 4,
             offset: const Offset(0, 2),
@@ -39,7 +41,7 @@ class ScannedData extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.black87,
+              color: AppColors.blackCommon,
             ),
           ),
           const SizedBox(height: 12),
@@ -60,7 +62,7 @@ class ScannedData extends StatelessWidget {
           _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
           _buildDataRow('出庫:', data.zcWarehouseQtyOut.toString()),
           if (data.zcUpInQtyTime != null)
-            _buildDataRow('In Qty Time:', data.zcUpInQtyTime!),
+            _buildDataRow('撤回時間:', DateFormatter.formatTimestamp(data.zcUpInQtyTime!)),
         ];
         
       case 'clear_qc_inspection':
@@ -69,15 +71,15 @@ class ScannedData extends StatelessWidget {
           _buildDataRow('質檢:', data.qcQtyIn.toString()),
           _buildDataRow('扣碼:', data.qcQtyOut.toString()),
           if (data.qcUpInQtyTime != null)
-            _buildDataRow('QC Up In Qty Time:', data.qcUpInQtyTime!),
+            _buildDataRow('QC修改時間:', DateFormatter.formatTimestamp(data.qcUpInQtyTime!)),
         ];
         
       case 'pull_qc_unchecked':
         return [
-          _buildDataRow('Quantity:', data.mQty.toString()),
+          _buildDataRow('数量:', data.mQty.toString()),
           _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
           if (data.zcInQcQtyTime != null)
-            _buildDataRow('In QC Qty Time:', data.zcInQcQtyTime!),
+            _buildDataRow('時間:', DateFormatter.formatTimestamp(data.zcInQcQtyTime!)),
         ];
         
       case 'clear_all_data':
@@ -106,7 +108,7 @@ class ScannedData extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
-                color: Colors.black54,
+                color: AppColors.blackCommon
               ),
             ),
           ),
@@ -116,7 +118,7 @@ class ScannedData extends StatelessWidget {
               maxLines: 3,
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black87,
+                color: AppColors.blackCommon
               ),
             ),
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class ConfirmationDialog extends StatelessWidget {
   static bool _isShowing = false;
   
@@ -19,7 +21,7 @@ class ConfirmationDialog extends StatelessWidget {
     this.cancelText = 'Cancel',
     required this.onConfirm,
     required this.onCancel,
-    this.confirmColor = Colors.green,
+    this.confirmColor = AppColors.success,
   });
   
   static Future<void> showAsync(
@@ -30,7 +32,7 @@ class ConfirmationDialog extends StatelessWidget {
     String cancelText = 'Cancel',
     required VoidCallback onConfirm,
     required VoidCallback onCancel,
-    Color confirmColor = Colors.green,
+    Color confirmColor = AppColors.success,
   }) async {
     
     if (!_isShowing && context.mounted) {
@@ -72,7 +74,7 @@ class ConfirmationDialog extends StatelessWidget {
         title,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.redAccent,
+          color: AppColors.alert,
           fontSize: 18,
         ),
       ),
@@ -85,7 +87,7 @@ class ConfirmationDialog extends StatelessWidget {
           child: Text(
             cancelText,
             style: const TextStyle(
-              color: Colors.grey,
+              color: AppColors.buttonCancel,
               fontSize: 14,
             ),
           ),
@@ -93,7 +95,7 @@ class ConfirmationDialog extends StatelessWidget {
         TextButton(
           onPressed: onConfirm,
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
+            foregroundColor: AppColors.scaffoldBackground,
             backgroundColor: confirmColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),

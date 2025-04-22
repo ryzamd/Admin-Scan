@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../features/auth/login/domain/entities/user_entity.dart';
+import '../constants/app_colors.dart';
 import '../constants/app_routes.dart';
 import '../services/navigation_service.dart';
 
@@ -107,9 +108,7 @@ class CustomNavBar extends StatelessWidget {
                 Icon(
                   isSelected ? selectedIcon : icon,
                   color:
-                      isSelected
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.7),
+                      isSelected ? AppColors.scaffoldBackground : AppColors.scaffoldBackground.withValues(alpha: 0.7),
                   size: 24,
                 ),
               ],

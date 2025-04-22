@@ -60,7 +60,7 @@ class AdminActionService {
       }
     } on DioException catch (e) {
       debugPrint('DioException in executeAdminAction: ${e.message}');
-      throw ServerException(e.message ?? 'Network error');
+      throw ServerException('Network error');
     } catch (e) {
       debugPrint('Unexpected error in executeAdminAction: $e');
       throw ServerException(e.toString());

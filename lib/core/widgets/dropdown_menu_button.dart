@@ -74,7 +74,7 @@ class AppBarActionsButton extends StatelessWidget {
               'torch',
               isTorchEnabled ? Icons.flash_on : Icons.flash_off,
               'Torch',
-              iconColor: isTorchEnabled ? Colors.yellow : AppColors.primary,
+              iconColor: isTorchEnabled ? AppColors.warning : AppColors.primary,
             ),
             _buildPopupMenuItem(
               'flip_camera',

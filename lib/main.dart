@@ -15,6 +15,11 @@ import 'features/auth/login/presentation/pages/login_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   await di.initAsync();
   runApp( MyApp());
 }
@@ -61,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: AppColors.scaffoldBackground,
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.scaffoldBackground,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
       ),

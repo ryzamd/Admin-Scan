@@ -64,7 +64,7 @@ class AuthRepository {
       }
     } on DioException catch (e) {
       debugPrint('DioException in loginUser: ${e.message}');
-      return Left(ServerFailure(e.message ?? 'Server error occurred'));
+      return Left(ServerFailure('Server error occurred'));
     } catch (e) {
       debugPrint('Unexpected error in loginUser: $e');
       return Left(ServerFailure(e.toString()));

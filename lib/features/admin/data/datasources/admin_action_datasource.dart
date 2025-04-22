@@ -146,7 +146,7 @@ class AdminActionDataSourceImpl implements AdminActionDataSource {
       }
     } on DioException catch (e) {
       debugPrint('DioException in checkCode: ${e.message}');
-      throw ServerException(e.message ?? 'Network error');
+      throw ServerException('Network error');
     } catch (e) {
       debugPrint('Unexpected error in checkCode: $e');
       throw ServerException(e.toString());

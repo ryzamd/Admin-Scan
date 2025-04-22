@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class SuccessDialog extends StatelessWidget {
   final String title;
   final String message;
@@ -40,7 +42,7 @@ class SuccessDialog extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.green,
+          color: AppColors.success,
           fontWeight: FontWeight.bold,
         ),
       ),

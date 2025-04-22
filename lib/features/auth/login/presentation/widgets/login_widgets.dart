@@ -35,7 +35,7 @@ class LoginTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.blackCommon.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -59,12 +59,12 @@ class LoginTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hintText,
                   border: InputBorder.none,
-                  fillColor: const Color(0xFFf1faee),
-                  hintStyle: const TextStyle(color: Colors.grey),
+                  fillColor: AppColors.whiteCommon,
+                  hintStyle: const TextStyle(color: AppColors.greyCommon),
                   errorStyle: const TextStyle(height: 0.7),
                 ),
                 style: const TextStyle(
-                  color: Colors.black87,
+                  color: AppColors.blackCommon,
                   fontSize: 16,
                 ),
               ),
@@ -103,11 +103,11 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        color: const Color(0xFFf1faee),
+        color: AppColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.blackCommon.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -127,12 +127,12 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
                 child: Text(
                   widget.selectedDepartment,
                   style: const TextStyle(
-                    color: Colors.black87,
+                    color: AppColors.blackCommon,
                     fontSize: 16,
                   ),
                 ),
               ),
-              const Icon(Icons.arrow_drop_down, color: Colors.grey),
+              const Icon(Icons.arrow_drop_down, color: AppColors.greyCommon),
             ],
           ),
         ),
@@ -213,11 +213,11 @@ class LoginButton extends StatelessWidget {
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        color: const Color(0xFF00A3FF),
+        color: AppColors.primary,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
+            color: AppColors.blackCommon.withValues(alpha: 0.25),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -230,11 +230,11 @@ class LoginButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Center(
             child: isLoading
-                ? const CircularProgressIndicator(color: Colors.white)
+                ? const CircularProgressIndicator(color: AppColors.scaffoldBackground)
                 : const Text(
                     '登录',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.whiteCommon,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,

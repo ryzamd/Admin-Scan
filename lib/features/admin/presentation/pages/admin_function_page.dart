@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/key_code_constants.dart';
 import '../../../../core/services/navigation_service.dart';
 import '../../../../core/services/scan_service.dart';
@@ -114,7 +115,8 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
           BarcodeFormat.upcE,
           BarcodeFormat.codabar,
         ],
-        detectionSpeed: DetectionSpeed.noDuplicates,
+        detectionSpeed: DetectionSpeed.normal,
+        detectionTimeoutMs: 1000,
         facing: CameraFacing.back,
         returnImage: false,
         torchEnabled: _torchEnabled,
@@ -201,7 +203,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
       context,
       title: 'CONFIRM ACTION',
       message: 'Are you sure you want to perform this action ?',
-      confirmColor: Colors.redAccent,
+      confirmColor: AppColors.alert,
       onConfirm: () {
         context.read<AdminActionBloc>().add(ExecuteActionEvent(
           code: code,
@@ -265,7 +267,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
               title: 'SUCCESS',
               message: widget.successMessage,
               icon: Icons.check_circle_outline,
-              iconColor: Colors.green,
+              iconColor: AppColors.success,
               onDismiss: () {
                 _clearData();
                 homeDataBloc.refreshData();
@@ -277,7 +279,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
             ErrorDialog.showAsync(
               context,
               title: 'ERROR',
-              message: state.message,
+              message: 'Cannot perform action, please check again',
             );
           }
         },
@@ -354,11 +356,11 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                           height: 300,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.scaffoldBackground,
                             borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
+                                color: AppColors.blackCommon.withValues(alpha: 0.05),
                                 spreadRadius: 1,
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
@@ -388,7 +390,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                       ElevatedButton(
                        onPressed: _currentCode.isEmpty ? null : () => _executeAction(_currentCode),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: AppColors.error,
                           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           shape: RoundedRectangleBorder(
@@ -430,7 +432,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                     context,
                     title: 'CLEAR DATA',
                     message: 'Are you sure you want to clear all data?',
-                    confirmColor: Colors.redAccent,
+                    confirmColor: AppColors.alert,
                     onConfirm: _clearData,
                     onCancel: () {},
                   );

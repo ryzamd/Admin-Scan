@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/widgets/error_dialog.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../../config/home_data_config.dart';
@@ -83,7 +84,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
         color: const Color(0xFF1d3557),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: AppColors.blackCommon.withValues(alpha: 0.2),
             spreadRadius: 0,
             blurRadius: 6,
             offset: const Offset(0, 3),
@@ -123,7 +124,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
                   text,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.whiteCommon,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -135,7 +136,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
                   height: 20,
                   child: Icon(
                     ascending ? Icons.arrow_downward : Icons.arrow_upward,
-                    color: Colors.white,
+                    color: AppColors.whiteCommon,
                     size: 16,
                   ),
                 ),

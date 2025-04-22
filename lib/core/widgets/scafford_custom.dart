@@ -66,14 +66,14 @@ class CustomScaffold extends StatelessWidget {
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.white,
+          color: AppColors.scaffoldBackground,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
       leading: shouldShowBack && showHomeIcon
             ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                icon: const Icon(Icons.arrow_back_ios, color: AppColors.scaffoldBackground),
                 onPressed: () => navigationService.handleBackButton(context),
               )
             : null,

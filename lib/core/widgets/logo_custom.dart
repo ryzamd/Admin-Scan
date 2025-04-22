@@ -9,7 +9,7 @@ Widget buildLogoWidget() {
         width: 120,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
+          color: AppColors.cardBackground,
           boxShadow: [
             BoxShadow(
               color: AppColors.cardBackgroundDark.withValues(alpha: 0.5),
@@ -29,7 +29,7 @@ Widget buildLogoWidget() {
       const Text(
         'PRO WELL',
         style: TextStyle(
-          color: Colors.white,
+          color: AppColors.cardBackground,
           fontSize: 30,
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins'
