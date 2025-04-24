@@ -7,6 +7,7 @@ class SecureStorageService {
   static const String _tokenExpiryKey = 'token_expiry';
   static const String _userIdKey = 'user_id';
   static const String _userDataKey = 'user_data';
+  static const String _userDepartmentKey = 'user_department';
 
   Future<void> saveAccessTokenAsync(String token) async {
     await _storage.write(key: _accessTokenKey, value: token);
@@ -51,5 +52,13 @@ class SecureStorageService {
   Future<bool> hasTokenAsync() async {
     final token = await getAccessTokenAsync();
     return token != null && token.isNotEmpty;
+  }
+
+  Future<void> saveUserDepartmentAsync(String department) async {
+    await _storage.write(key: _userDepartmentKey, value: department);
+  }
+
+  Future<String?> getUserDepartmentAsync() async {
+    return await _storage.read(key: _userDepartmentKey);
   }
 }

@@ -129,6 +129,7 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
                   style: const TextStyle(
                     color: AppColors.blackCommon,
                     fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -173,7 +174,7 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
                       ),
                       const Divider(),
                       ...widget.departments.map((department) => ListTile(
-                        title: Text(department, textAlign: TextAlign.center,),
+                        title: Text(department, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),),
                         selected: department == widget.selectedDepartment,
                         onTap: () {
                           widget.onChanged(department);

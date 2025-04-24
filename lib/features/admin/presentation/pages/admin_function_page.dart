@@ -297,6 +297,12 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                 });
                 return true;
               }
+              if (index == 1 && _showDataView) {
+                setState(() {
+                  _showDataView = false;
+                });
+                return true;
+              }
               return false;
             },
             body: KeyboardListener(

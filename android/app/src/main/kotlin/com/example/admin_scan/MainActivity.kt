@@ -27,6 +27,7 @@ class MainActivity : FlutterActivity() {
 
     private var eventSink: EventChannel.EventSink? = null
     private var backButtonEventSink: EventChannel.EventSink? = null
+    private val pendingScanDataQueue: MutableList<String> = mutableListOf()
     private val handler = Handler(Looper.getMainLooper())
     
     // Broadcast receiver for scanner events
@@ -127,10 +128,10 @@ class MainActivity : FlutterActivity() {
                     eventSink = events
                     Log.d("MainActivity", "📡 EventChannel Listener Started")
                     
-                    // Send test data to verify channel is working
-                    // handler.postDelayed({
-                    //     sendScanDataToFlutter("TEST_CHANNEL_DATA")
-                    // }, 3000)
+                    while (pendingScanDataQueue.isNotEmpty()) {
+                        val data = pendingScanDataQueue.removeAt(0)
+                        sendScanDataToFlutter(data)
+                    }
                 }
 
                 override fun onCancel(arguments: Any?) {
@@ -194,10 +195,11 @@ class MainActivity : FlutterActivity() {
 
     fun sendScanDataToFlutter(scanData: String) {
         if (eventSink == null) {
-            Log.e("MainActivity", "❌ EventSink is NULL, cannot send data!")
+            Log.e("MainActivity", "❌ EventSink is NULL, cannot send data! Lưu vào queue")
+            pendingScanDataQueue.add(scanData)
             return
         }
-
+    
         handler.post {
             try {
                 Log.d("MainActivity", "⏳ Attempting to send data: $scanData")

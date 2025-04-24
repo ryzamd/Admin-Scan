@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/di/dependencies.dart' as di;
+import '../../../../../core/services/secure_storage_service.dart';
 import '../../../../../core/widgets/error_dialog.dart';
 import '../../../../../core/widgets/logo_custom.dart';
 import '../bloc/login_bloc.dart';
@@ -22,8 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   
-  String _selectedDepartment = '管理員';
-  final List<String> _departments = ['管理員'];
+  String _selectedDepartment = 'Quality Control';
+  final List<String> _departments = ['Quality Control', 'Warehouse Manager'];
   
   final FocusNode _userIdFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
@@ -66,12 +67,16 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
+
+          di.sl<SecureStorageService>().saveUserDepartmentAsync(_selectedDepartment);
+          
           Navigator.pushNamedAndRemoveUntil(
             context,
             AppRoutes.dashboard,
             (route) => false,
             arguments: state.user,
           );
+          
         } else if (state is LoginFailure) {
           if (context.mounted) {
             ErrorDialog.showAsync(
@@ -187,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                                                       LoginButtonPressed(
                                                         userId: _userIdController.text,
                                                         password: _passwordController.text,
-                                                        name: _selectedDepartment,
+                                                        name: '管理員',
+                                                        department: _selectedDepartment,
                                                       ),
                                                     );
                                                   }
