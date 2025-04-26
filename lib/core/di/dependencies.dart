@@ -28,6 +28,7 @@ import '../../features/home_data/domain/repositories/home_data_repository.dart';
 import '../../features/home_data/domain/usecases/get_home_data.dart';
 import '../../features/home_data/presentation/bloc/home_data_bloc.dart';
 import '../auth/auth_repository.dart';
+import '../localization/language_bloc.dart';
 import '../network/dio_client.dart';
 import '../network/network_infor.dart';
 import '../network/token_interceptor.dart';
@@ -43,6 +44,7 @@ Future<void> initAsync() async {
   await logoutFeatureAsync();
   await homeDataFeatureAsync();
   await _initAdminActionFeatureAsync();
+  await _initMultiLanguage();
 }
 
 Future<void> coreFeatureAsync() async {
@@ -154,4 +156,8 @@ Future<void> _initAdminActionFeatureAsync() async {
       checkCode: sl<CheckCode>(),
     ),
   );
+}
+
+Future<void> _initMultiLanguage() async {
+  sl.registerLazySingleton<LanguageBloc>(() => LanguageBloc(sharedPreferences: sl<SharedPreferences>()));
 }

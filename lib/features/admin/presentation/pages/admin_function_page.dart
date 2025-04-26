@@ -23,6 +23,7 @@ import '../bloc/admin_action_event.dart';
 import '../bloc/admin_action_state.dart';
 import '../widgets/admin_scanner_widget.dart';
 import '../widgets/scanned_data_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminFunctionPageWithHomeData extends StatefulWidget {
   final UserEntity user;
@@ -108,12 +109,6 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
         formats: const [
           BarcodeFormat.qrCode,
           BarcodeFormat.code128,
-          BarcodeFormat.code39,
-          BarcodeFormat.ean8,
-          BarcodeFormat.ean13,
-          BarcodeFormat.upcA,
-          BarcodeFormat.upcE,
-          BarcodeFormat.codabar,
         ],
         detectionSpeed: DetectionSpeed.normal,
         detectionTimeoutMs: 1000,
@@ -131,8 +126,8 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
       debugPrint("QR DEBUG: ⚠️ Camera initialization error: $e");
       ErrorDialog.showAsync(
         context,
-        title: 'CAMERA ERROR',
-        message: "Camera initialization error: $e",
+        title: AppLocalizations.of(context).titleDialogErrorCameraUPCASE,
+        message: "${AppLocalizations.of(context).messageDialogErrorCamera}$e",
       );
     }
   }
@@ -196,13 +191,14 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
     context.read<AdminActionBloc>().add(ClearScannedDataEvent());
   }
 
-  void _executeAction(String code) {
+  void _executeAction(String code, BuildContext context) {
     final actionType = widget.actionType;
+    final multiLanguage = AppLocalizations.of(context);
     
     ConfirmationDialog.showAsync(
       context,
-      title: 'CONFIRM ACTION',
-      message: 'Are you sure you want to perform this action ?',
+      title: multiLanguage.confirmActionLabelUPCASE,
+      message: multiLanguage.confirmPrompt,
       confirmColor: AppColors.alert,
       onConfirm: () {
         context.read<AdminActionBloc>().add(ExecuteActionEvent(
@@ -248,7 +244,8 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
   Widget build(BuildContext context) {
     final homeDataConfig = HomeDataBlocFactory.getConfigForFunction(widget.functionType);
     final HomeDataBloc homeDataBloc = HomeDataBlocFactory.createBloc(widget.user, widget.functionType);
-    
+    final multiLanguage = AppLocalizations.of(context);
+
     return BlocProvider<HomeDataBloc>(
       create: (context) => homeDataBloc,
       child: BlocConsumer<AdminActionBloc, AdminActionState>(
@@ -264,7 +261,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
             
             NotificationDialog.show(
               context,
-              title: 'SUCCESS',
+              title: multiLanguage.successUPCASE,
               message: widget.successMessage,
               icon: Icons.check_circle_outline,
               iconColor: AppColors.success,
@@ -278,8 +275,12 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
             
             ErrorDialog.showAsync(
               context,
-              title: 'ERROR',
-              message: 'Cannot perform action, please check again',
+              title: multiLanguage.errorUPCASE,
+              message: multiLanguage.messageDialogErrorCannotPerformAction,
+              onDismiss: () {
+                 _clearData();
+                homeDataBloc.refreshData();
+              },
             );
           }
         },
@@ -353,7 +354,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                           child: ScannedData(
                             data: state.data,
                             actionType: widget.actionType,
-                            onExecute: () => _executeAction(state.data.code),
+                            onExecute: () => _executeAction(state.data.code, context),
                           ),
                         ),
                       ] else if ((state is! AdminActionDataLoading)) ...[
@@ -373,13 +374,13 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                               ),
                             ],
                           ),
-                          child: const Column(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(height: 12),
                               Text(
-                                  'Scan a QR code to get item details',
+                                  multiLanguage.scanQrPrompt,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey,
@@ -394,7 +395,7 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                       const Spacer(),
                 
                       ElevatedButton(
-                       onPressed: _currentCode.isEmpty ? null : () => _executeAction(_currentCode),
+                       onPressed: _currentCode.isEmpty ? null : () => _executeAction(_currentCode, context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.error,
                           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
@@ -436,8 +437,8 @@ class _AdminFunctionPageWithHomeDataState extends State<AdminFunctionPageWithHom
                 onClearData: () {
                   ConfirmationDialog.showAsync(
                     context,
-                    title: 'CLEAR DATA',
-                    message: 'Are you sure you want to clear all data?',
+                    title: multiLanguage.clearAllDataLabel,
+                    message: multiLanguage.confirmPrompt,
                     confirmColor: AppColors.alert,
                     onConfirm: _clearData,
                     onCancel: () {},

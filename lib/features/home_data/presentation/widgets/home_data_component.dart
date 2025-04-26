@@ -8,6 +8,7 @@ import '../../config/home_data_config.dart';
 import '../bloc/home_data_bloc.dart';
 import '../bloc/home_data_event.dart';
 import 'configurable_home_data_table_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeDataComponent extends StatefulWidget {
   final UserEntity user;
@@ -94,7 +95,7 @@ class _HomeDataComponentState extends State<HomeDataComponent> {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-          hintText: 'Search',
+          hintText: AppLocalizations.of(context).searchHint,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),

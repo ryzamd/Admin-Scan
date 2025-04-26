@@ -8,6 +8,7 @@ import '../../features/auth/login/domain/entities/user_entity.dart';
 import '../constants/api_constants.dart';
 import '../errors/failures.dart';
 import '../network/dio_client.dart';
+import '../services/get_translate_key.dart';
 import '../services/secure_storage_service.dart';
 
 
@@ -62,12 +63,9 @@ class AuthRepository {
       } else {
         return Left(AuthFailure('Server returned ${response.statusCode}'));
       }
-    } on DioException catch (e) {
-      debugPrint('DioException in loginUser: ${e.message}');
-      return Left(ServerFailure('Server error occurred'));
-    } catch (e) {
+    } catch (_) {
       debugPrint('Unexpected error in loginUser: $e');
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(StringKey.serverErrorMessage));
     }
   }
 

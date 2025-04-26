@@ -5,6 +5,8 @@ import 'package:admin_scan/features/home_data/domain/entities/home_data_entity.d
 import 'package:admin_scan/features/home_data/domain/repositories/home_data_repository.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/services/get_translate_key.dart';
+
 class HomeDataRepositoryImpl implements HomeDataRepository{
   final NetworkInfo networkInfo;
   final HomeDataRemoteDataSource homeDataRemoteDatasource;
@@ -22,11 +24,11 @@ class HomeDataRepositoryImpl implements HomeDataRepository{
 
         return Right(result);
 
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+      } catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
     
   }

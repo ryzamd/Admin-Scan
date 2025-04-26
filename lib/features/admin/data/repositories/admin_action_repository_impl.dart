@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/network/network_infor.dart';
+import '../../../../core/services/get_translate_key.dart';
 import '../../domain/entities/admin_action_entity.dart';
 import '../../domain/repositories/admin_action_repository.dart';
 import '../datasources/admin_action_datasource.dart';
@@ -26,8 +27,10 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
     required String code,
     required String userName,
   }) async {
+    
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.executeAction(
           endpoint: endpoint,
           codeParamName: codeParamName,
@@ -35,14 +38,14 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
           code: code,
           userName: userName,
         );
+
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
   
@@ -50,15 +53,15 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> clearWarehouseQtyInt(String code, String userName) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.clearWarehouseQtyInt(code, userName);
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
   
@@ -66,15 +69,15 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> clearQcInspectionData(String code, String userName) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.clearQcInspectionData(code, userName);
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
   
@@ -82,15 +85,15 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> clearQcDeductionCode(String code, String userName) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.clearQcDeductionCode(code, userName);
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
   
@@ -98,15 +101,15 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> pullQcUncheckedData(String code, String userName) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.pullQcUncheckedData(code, userName);
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
   
@@ -114,15 +117,15 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
   Future<Either<Failure, AdminActionEntity>> clearAllData(String code, String userName) async {
     if (await networkInfo.isConnected) {
       try {
+
         final result = await dataSource.clearAllData(code, userName);
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
+
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
 
@@ -135,15 +138,11 @@ class AdminActionRepositoryImpl implements AdminActionRepository {
         debugPrint('Check code result: $result');
         return Right(result);
 
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
-        
+      } on ServerException catch (_) {
+        return Left(ServerFailure(StringKey.serverErrorMessage));
       }
     } else {
-      return Left(ConnectionFailure('No internet connection. Please check your network settings and try again.'));
+      return Left(ConnectionFailure(StringKey.networkErrorMessage));
     }
   }
 }

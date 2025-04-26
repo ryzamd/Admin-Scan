@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../../../core/services/get_translate_key.dart';
 import '../../../../main.dart' as global;
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../../domain/usecases/check_code.dart';
@@ -22,12 +23,6 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   final CheckCode checkCode;
   
   MobileScannerController? scannerController;
-
-  static const String ACTION_CLEAR_WAREHOUSE_QTY = 'clear_warehouse_qty';
-  static const String ACTION_CLEAR_QC_INSPECTION = 'clear_qc_inspection';
-  static const String ACTION_CLEAR_QC_DEDUCTION = 'clear_qc_deduction';
-  static const String ACTION_PULL_QC_UNCHECKED = 'pull_qc_unchecked';
-  static const String ACTION_CLEAR_ALL_DATA = 'clear_all_data';
 
   AdminActionBloc({
     required this.executeAdminAction,
@@ -119,7 +114,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     
     if (!(await connectionChecker.hasConnection)) {
       emit(AdminActionError(
-        message: 'No internet connection. Please check your network.',
+        message: StringKey.networkErrorMessage,
         previousState: state,
       ));
       return;
@@ -131,19 +126,19 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     ));
     
     switch (event.actionType) {
-      case ACTION_CLEAR_WAREHOUSE_QTY:
+      case FunctionType.ACTION_CLEAR_WAREHOUSE_QTY:
         await _executeClearWarehouseQtyInt(event.code, emit);
         break;
-      case ACTION_CLEAR_QC_INSPECTION:
+      case FunctionType.ACTION_CLEAR_QC_INSPECTION:
         await _executeClearQcInspectionData(event.code, emit);
         break;
-      case ACTION_CLEAR_QC_DEDUCTION:
+      case FunctionType.ACTION_CLEAR_QC_DEDUCTION:
         await _executeClearQcDeductionCode(event.code, emit);
         break;
-      case ACTION_PULL_QC_UNCHECKED:
+      case FunctionType.ACTION_PULL_QC_UNCHECKED:
         await _executePullQcUncheckedData(event.code, emit);
         break;
-      case ACTION_CLEAR_ALL_DATA:
+      case FunctionType.ACTION_CLEAR_ALL_DATA:
         await _executeClearAllData(event.code, emit);
         break;
       default:
@@ -172,7 +167,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
       (data) {
         emit(AdminActionSuccess(
           result: data,
-          actionType: ACTION_CLEAR_WAREHOUSE_QTY,
+          actionType: FunctionType.ACTION_CLEAR_WAREHOUSE_QTY,
         ));
       },
     );
@@ -196,7 +191,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
       (data) {
         emit(AdminActionSuccess(
           result: data,
-          actionType: ACTION_CLEAR_QC_INSPECTION,
+          actionType: FunctionType.ACTION_CLEAR_QC_INSPECTION,
         ));
       },
     );
@@ -220,7 +215,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
       (data) {
         emit(AdminActionSuccess(
           result: data,
-          actionType: ACTION_CLEAR_QC_DEDUCTION,
+          actionType: FunctionType.ACTION_CLEAR_QC_DEDUCTION,
         ));
       },
     );
@@ -244,7 +239,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
       (data) {
         emit(AdminActionSuccess(
           result: data,
-          actionType: ACTION_PULL_QC_UNCHECKED,
+          actionType: FunctionType.ACTION_PULL_QC_UNCHECKED,
         ));
       },
     );
@@ -268,7 +263,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
       (data) {
         emit(AdminActionSuccess(
           result: data,
-          actionType: ACTION_CLEAR_ALL_DATA,
+          actionType: FunctionType.ACTION_CLEAR_ALL_DATA,
         ));
       },
     );
@@ -280,7 +275,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   ) async {
     add(ExecuteActionEvent(
       code: event.code,
-      actionType: ACTION_CLEAR_WAREHOUSE_QTY,
+      actionType: FunctionType.ACTION_CLEAR_WAREHOUSE_QTY,
     ));
   }
   
@@ -290,7 +285,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   ) async {
     add(ExecuteActionEvent(
       code: event.code,
-      actionType: ACTION_CLEAR_QC_INSPECTION,
+      actionType: FunctionType.ACTION_CLEAR_QC_INSPECTION,
     ));
   }
   
@@ -300,7 +295,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   ) async {
     add(ExecuteActionEvent(
       code: event.code,
-      actionType: ACTION_CLEAR_QC_DEDUCTION,
+      actionType: FunctionType.ACTION_CLEAR_QC_DEDUCTION,
     ));
   }
   
@@ -310,7 +305,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   ) async {
     add(ExecuteActionEvent(
       code: event.code,
-      actionType: ACTION_PULL_QC_UNCHECKED,
+      actionType: FunctionType.ACTION_PULL_QC_UNCHECKED,
     ));
   }
   
@@ -320,7 +315,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
   ) async {
     add(ExecuteActionEvent(
       code: event.code,
-      actionType: ACTION_CLEAR_ALL_DATA,
+      actionType: FunctionType.ACTION_CLEAR_ALL_DATA,
     ));
   }
   
@@ -338,7 +333,7 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
     
     if (!(await connectionChecker.hasConnection)) {
       emit(AdminActionError(
-        message: 'No internet connection. Please check your network.',
+        message: StringKey.networkErrorMessage,
         previousState: state,
       ));
       return;
@@ -365,16 +360,20 @@ class AdminActionBloc extends Bloc<AdminActionEvent, AdminActionState> {
         if (state is AdminActionScanning) {
           final route = ModalRoute.of(global.navigatorKey.currentContext!)?.settings.name;
           
-          if (route?.contains('clear_warehouse_qty') ?? false) {
-            actionType = ACTION_CLEAR_WAREHOUSE_QTY;
-          } else if (route?.contains('clear_qc_inspection') ?? false) {
-            actionType = ACTION_CLEAR_QC_INSPECTION;
-          } else if (route?.contains('clear_qc_deduction') ?? false) {
-            actionType = ACTION_CLEAR_QC_DEDUCTION;
-          } else if (route?.contains('pull_qc_unchecked') ?? false) {
-            actionType = ACTION_PULL_QC_UNCHECKED;
-          } else if (route?.contains('clear_all_data') ?? false) {
-            actionType = ACTION_CLEAR_ALL_DATA;
+          if (route?.contains(FunctionType.ACTION_CLEAR_WAREHOUSE_QTY) ?? false) {
+            actionType = FunctionType.ACTION_CLEAR_WAREHOUSE_QTY;
+
+          } else if (route?.contains(FunctionType.ACTION_CLEAR_QC_INSPECTION) ?? false) {
+            actionType = FunctionType.ACTION_CLEAR_QC_INSPECTION;
+
+          } else if (route?.contains(FunctionType.ACTION_CLEAR_QC_DEDUCTION) ?? false) {
+            actionType = FunctionType.ACTION_CLEAR_QC_DEDUCTION;
+
+          } else if (route?.contains(FunctionType.ACTION_PULL_QC_UNCHECKED) ?? false) {
+            actionType = FunctionType.ACTION_PULL_QC_UNCHECKED;
+
+          } else if (route?.contains(FunctionType.ACTION_CLEAR_ALL_DATA) ?? false) {
+            actionType = FunctionType.ACTION_CLEAR_ALL_DATA;
           }
         }
         

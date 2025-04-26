@@ -8,6 +8,7 @@ import '../../../../../core/widgets/scafford_custom.dart';
 import '../../../login/domain/entities/user_entity.dart';
 import '../bloc/logout_bloc.dart';
 import '../widgets/logout_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatelessWidget {
   final UserEntity user;
@@ -21,10 +22,12 @@ class ProfilePage extends StatelessWidget {
       NavigationService().enterProfilePage();
     });
     
+    final multiLanguage = AppLocalizations.of(context);
+
     return BlocProvider(
       create: (context) => di.sl<LogoutBloc>(),
       child: CustomScaffold(
-        title: 'PROFILE',
+        title: multiLanguage.profileUPCASE,
         showNavBar: true,
         currentIndex: 2,
         showHomeIcon: false,
@@ -102,7 +105,7 @@ class ProfilePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      user.role == UserRole.warehouseAdmin ? '管理員' : 'UNKNOW',
+                      user.role == UserRole.warehouseAdmin ? multiLanguage.userTitle : multiLanguage.unknowMessageUPCASE,
                       style: const TextStyle(
                         fontSize: 16,
                         color: AppColors.whiteCommon,

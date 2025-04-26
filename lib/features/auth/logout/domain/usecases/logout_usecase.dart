@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/errors/failures.dart';
+import '../../../../../core/services/get_translate_key.dart';
 import '../repositories/logout_repository.dart';
 
 class LogoutUseCase {
@@ -12,8 +13,8 @@ class LogoutUseCase {
     try {
       final result = await repository.logoutAsync();
       return Right(result);
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
+    } catch (_) {
+      return Left(ServerFailure(StringKey.serverErrorMessage));
     }
   }
 }

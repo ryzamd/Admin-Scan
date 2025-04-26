@@ -1,0 +1,311 @@
+{
+  "@@locale": "en",
+  "appTitle": "Pro Well",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "serverErrorMessage": "Cannot connect to server.",
+  "@serverErrorMessage": {
+    "description": "Text for server Error"
+  },
+  "networkErrorMessage": "No internet connection. Please check your network settings and try again.",
+  "@networkErrorMessage": {
+    "description": "Text for network Error"
+  },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Text for the login button"
+  },
+  "usernameHint": "Please select username",
+  "@usernameHint": {
+    "description": "Hint text for the username field"
+  },
+  "passwordHint": "Enter password",
+  "@passwordHint": {
+    "description": "Hint text for the password field"
+  },
+  "selectDepartmentLabel": "Select Department",
+  "@selectDepartmentLabel": {
+    "description": "Prompt to select a department"
+  },
+  "warehouseAdminLabel": "Warehouse Admin",
+  "@warehouseAdminLabel": {
+    "description": "Label for warehouse admin"
+  },
+  "pleaseEnterUsername": "Please enter your username",
+  "@pleaseEnterUsername": {
+    "description": "Error message for missing username"
+  },
+  "pleaseEnterPassword": "Please enter your password",
+  "@pleaseEnterPassword": {
+    "description": "Error message for missing password"
+  },
+  "loginFailed": "Login Failed",
+  "@loginFailed": {
+    "description": "Message shown when login fails"
+  },
+  "clearWarehouseQtyButton": "Clear WH Quantity",
+  "@clearWarehouseQtyButton": {
+    "description": "Button to clear warehouse quantity"
+  },
+  "clearQcInspectionButton": "Clear QC Inspected",
+  "@clearQcInspectionButton": {
+    "description": "Button to clear QC inspected items"
+  },
+  "clearQcInspectionLabel": "Clear QC Inspected",
+  "@clearQcInspectionLabel": {
+    "description": "Label clear QC inspected"
+  },
+  "clearQcInspectionMessage": "The QC inspection data has been successfully cleared.",
+  "@clearQcInspectionMessage": {
+    "description": "Message for clear QC inspected"
+  },
+  "clearQcDeductionButton": "Clear QC Deducted",
+  "@clearQcDeductionButton": {
+    "description": "Button to clear QC deducted items"
+  },
+  "clearQcDeductionLabel": "Clear QC Deducted",
+  "@clearQcDeductionLabel": {
+    "description": "Label to clear QC deducted items"
+  },
+  "clearQcDeductionMessage": "The QC deduction data has been successfully cleared",
+  "@clearQcDeductionMessage": {
+    "description": "Message for clear QC deducted items"
+  },
+  "importUncheckedButton": "Import Material Unchecked",
+  "@importUncheckedButton": {
+    "description": "Button to import unchecked material"
+  },
+  "importUncheckedLabel": "Import Material Unchecked",
+  "@importUncheckedLabel": {
+    "description": "Label to import unchecked material"
+  },
+  "importUncheckedMessage": "The QC unchecked data has been successfully pulled.",
+  "@importUncheckedMessage": {
+    "description": "Message for import unchecked material"
+  },
+  "clearAllDataButton": "Clear All Data",
+  "@clearAllDataButton": {
+    "description": "Button to clear all data"
+  },
+  "clearAllDataLabel": "Clear All Data",
+  "@clearAllDataLabel": {
+    "description": "Label to clear all data"
+  },
+  "clearAllDataMessage": "All data has been successfully cleared.",
+  "@clearAllDataMessage": {
+    "description": "Message to clear all data"
+  },
+  "scanQrPrompt": "Scan a QR code to get item details",
+  "@scanQrPrompt": {
+    "description": "Prompt to scan a QR code"
+  },
+  "confirmActionLabelUPCASE": "CONFIRM ACTION",
+  "@confirmActionLabelUPCASE": {
+    "description": "Message for confirm an action"
+  },
+  "confirmPrompt": "Are you sure you want to perform this action?",
+  "@confirmPrompt": {
+    "description": "Prompt to confirm an action"
+  },
+  "successUPCASE": "SUCCESS",
+  "@successUPCASE": {
+    "description": "Label for success"
+  },
+  "errorUPCASE": "ERROR",
+  "@errorUPCASE": {
+    "description": "Label for error"
+  },
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "Button to cancel"
+  },
+  "okButtonUPCASE": "OK",
+  "@okButtonUPCASE": {
+    "description": "Button to confirm OK"
+  },
+  "searchHint": "Search",
+  "@searchHint": {
+    "description": "Hint text for search field"
+  },
+  "logoutButtonUPCASE": "LOGOUT",
+  "@logoutButtonUPCASE": {
+    "description": "Button to log out"
+  },
+  "logoutConfirmMessage": "Are you sure you want to log out?",
+  "@logoutConfirmMessage": {
+    "description": "Prompt to confirm logout"
+  },
+  "profileUPCASE": "PROFILE",
+  "@profileUPCASE": {
+    "description": "Label for user profile"
+  },
+  "adminMenu": "Admin Menu",
+  "@adminMenu": {
+    "description": "Label for admin menu"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Label for language selection"
+  },
+  "warehouseManagerLabel": "Warehouse Manager",
+  "@warehouseManagerLabel": {
+    "description": "Label for warehouse manager"
+  },
+  "clearQcAndDeductionLabel": "Clear QC and Deduction Data",
+  "@clearQcAndDeductionLabel": {
+    "description": "Label to clear QC and deduction data"
+  },
+  "clearDeductionLabel": "Clear Deduction Data",
+  "@clearDeductionLabel": {
+    "description": "Label to clear deduction data"
+  },
+  "clearWarehouseDataLabel": "Clear Warehouse Data",
+  "@clearWarehouseDataLabel": {
+    "description": "Label to clear warehouse data"
+  },
+  "importUncheckedDataLabel": "Import Unchecked Data",
+  "@importUncheckedDataLabel": {
+    "description": "Label to import unchecked data"
+  },
+  "qualityControlLabel": "Quality Control",
+  "@qualityControlLabel": {
+    "description": "Label for Quality Control section"
+  },
+  "warehouseLabel": "Warehouse",
+  "@warehouseLabel": {
+    "description": "Label for warehouse section"
+  },
+  "clearWarehouseQuantityLabel": "Clear WH Quantity",
+  "@clearWarehouseQuantityLabel": {
+    "description": "Label for Clear WH Quantity"
+  },
+  "clearWarehouseQuantitySuccessMessage": "The warehouse quantity has been successfully cleared.",
+  "@clearWarehouseQuantitySuccessMessage": {
+    "description": "Success message for action of Clear WH Quantity"
+  },
+  "titleDialogErrorCameraUPCASE": "CAMERA ERROR",
+  "@titleDialogErrorCameraUPCASE": {
+    "description": "Title for Dialog Error of Camera"
+  },
+  "messageDialogErrorCamera": "Camera initialization error: ",
+  "@messageDialogErrorCamera": {
+    "description": "Message for Dialog Error of Camera"
+  },
+  "messageDialogErrorCannotPerformAction": "Cannot perform action, please check again",
+  "@messageDialogErrorCannotPerformAction": {
+    "description": "Message for Dialog Error perform action"
+  },
+  "initializingCameraMessage": "Initializing camera...",
+  "@initializingCameraMessage": {
+    "description": "Message for Initializing camera"
+  },
+  "tryAgainButton": "Try Again",
+  "@tryAgainButton": {
+    "description": "Label for Try Again button"
+  },
+  "cameraStatusMessage": "Camera is off",
+  "@cameraStatusMessage": {
+    "description": "Message for Camera is off"
+  },
+  "scannedItemDetailLabel": "Scanned Item Details:",
+  "@scannedItemDetailLabel": {
+    "description": "Label for Scanned Item Details"
+  },
+  "materialNameLabel": "Name:",
+  "@materialNameLabel": {
+    "description": "Label for Name"
+  },
+  "materialCommandNumberLabel": "Project Code:",
+  "@materialCommandNumberLabel": {
+    "description": "Label for Project Code"
+  },
+  "materialImportLabel": "Import Material:",
+  "@materialImportLabel": {
+    "description": "Label for Import Material"
+  },
+  "materialExportLabel": "Export Material:",
+  "@materialExportLabel": {
+    "description": "Label for Export Material"
+  },
+  "materialExportTimeLabel": "Time of Export:",
+  "@materialExportTimeLabel": {
+    "description": "Label for Time of Export"
+  },
+  "qualityInspectionLabel": "Inspection:",
+  "@qualityInspectionLabel": {
+    "description": "Label for Inspection"
+  },
+  "deductionCodeLabel": "Deduction:",
+  "@deductionCodeLabel": {
+    "description": "Label for Deduction"
+  },
+  "qcModificationTimeLabel": "Inspected Time:",
+  "@qcModificationTimeLabel": {
+    "description": "Label for Inspected Time"
+  },
+  "quantityLabel": "Quantity:",
+  "@quantityLabel": {
+    "description": "Label for Quantity"
+  },
+  "importUnInspectMaterialTimeLabel": "Time:",
+  "@importUnInspectMaterialTimeLabel": {
+    "description": "Label for Time"
+  },
+  "logoutFailedUPCASE": "LOGOUT FAILED:",
+  "@logoutFailedUPCASE": {
+    "description": "Label for LOGOUT FAILED"
+  },
+  "errorLoadingDataMessage": "Error loading data",
+  "@errorLoadingDataMessage": {
+    "description": "Message for Error loading data"
+  },
+  "noDataAvailableMessage": "No data available",
+  "@noDataAvailableMessage": {
+    "description": "Message for No data available"
+  },
+  "noDataMessage": "No data",
+  "@noDataMessage": {
+    "description": "Message for No data"
+  },
+  "userTitle": "Administrator",
+  "@userTitle": {
+    "description": "Message for Administrator"
+  },
+  "unknowMessageUPCASE": "UNKNOW",
+  "@unknowMessageUPCASE": {
+    "description": "Message for UNKNOW"
+  },
+  "calendarIconButton": "Calendar",
+  "@calendarIconButton": {
+    "description": "Label for calendar icon button"
+  },
+  "refreshIconButton": "Refresh",
+  "@refreshIconButton": {
+    "description": "Label for refresh icon button"
+  },
+  "torchIconButton": "Torch",
+  "@torchIconButton": {
+    "description": "Label for torch/flashlight icon button"
+  },
+  "flipCameraIconButton": "Flip Camera",
+  "@flipCameraIconButton": {
+    "description": "Label for flip camera icon button"
+  },
+  "toggleCameraIconButton": "Toggle Camera",
+  "@toggleCameraIconButton": {
+    "description": "Label for toggle camera icon button"
+  },
+  "clearDataIconButton": "Clear Data",
+  "@clearDataIconButton": {
+    "description": "Label for clear data icon button"
+  },
+  "confirmButtonDialog": "Confirm",
+  "@confirmButtonDialog": {
+    "description": "Label for confirm button in dialogs"
+  },
+  "cancelButtonDialog": "Cancel",
+  "@cancelButtonDialog": {
+    "description": "Label for cancel button in dialogs"
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/services/get_translate_key.dart';
 import '../../../../core/widgets/error_dialog.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../../config/home_data_config.dart';
@@ -8,6 +9,7 @@ import '../../domain/entities/home_data_entity.dart';
 import '../bloc/home_data_bloc.dart';
 import '../bloc/home_data_event.dart';
 import '../bloc/home_data_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConfigurableHomeDataTable extends StatelessWidget {
   final UserEntity user;
@@ -30,23 +32,28 @@ class ConfigurableHomeDataTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final multiLanguage = AppLocalizations.of(context);
+
     return BlocBuilder<HomeDataBloc, HomeDataState>(
       builder: (context, state) {
         if (state is HomeDataInitial || state is HomeDataLoading) {
           return const Center(child: CircularProgressIndicator());
+
         } else if (state is HomeDataError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ErrorDialog.showAsync(
               context,
-              title: 'ERROR',
-              message: state.message,
+              title: multiLanguage.errorUPCASE,
+              message: TranslateKey.getStringKey(multiLanguage, state.message),
             );
           });
-          return const Center(child: Text('Error loading data'));
+
+          return Center(child: Text(multiLanguage.errorLoadingDataMessage));
+
         } else if (state is HomeDataLoaded || state is HomeDataRefreshing) {
-          final items = state is HomeDataLoaded
-              ? state.filteredItems
-              : (state as HomeDataRefreshing).items;
+
+          final items = state is HomeDataLoaded ? state.filteredItems : (state as HomeDataRefreshing).items;
 
           final sortColumn = state is HomeDataLoaded ? state.sortColumn : config.defaultSortColumn;
           final ascending = state is HomeDataLoaded ? state.ascending : config.defaultSortAscending;
@@ -58,9 +65,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
                 children: [
                   _buildTableHeader(context, sortColumn, ascending),
                   Expanded(
-                    child: items.isEmpty
-                        ? const Center(child: Text('No data available'))
-                        : _buildTableBody(items),
+                    child: items.isEmpty ? Center(child: Text(multiLanguage.noDataAvailableMessage)) : _buildTableBody(items),
                   ),
                 ],
               ),
@@ -72,7 +77,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
           );
         }
 
-        return const Center(child: Text('No data'));
+        return Center(child: Text(multiLanguage.noDataMessage));
       },
     );
   }
@@ -154,13 +159,13 @@ class ConfigurableHomeDataTable extends StatelessWidget {
         return Container(
           height: 50,
           color: index % 2 == 0 ? const Color(0xFFFAF1E6) : const Color(0xFFF5E6CC),
-          child: _buildDataRow(items[index]),
+          child: _buildDataRow(items[index], context),
         );
       },
     );
   }
 
-  Widget _buildDataRow(HomeDataEntity item) {
+  Widget _buildDataRow(HomeDataEntity item, BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: config.displayColumns.map((column) {
@@ -170,7 +175,7 @@ class ConfigurableHomeDataTable extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
             child: Text(
-              _getFieldValue(item, column),
+              _getFieldValue(item, column, context),
               style: const TextStyle(fontSize: 13),
               textAlign: TextAlign.center,
               maxLines: 4,
@@ -182,7 +187,9 @@ class ConfigurableHomeDataTable extends StatelessWidget {
     );
   }
 
-  String _getFieldValue(HomeDataEntity item, String fieldName) {
+  String _getFieldValue(HomeDataEntity item, String fieldName, BuildContext context) {
+    final multiLanguage = AppLocalizations.of(context);
+
     switch (fieldName) {
       case HomeDataConfig.COL_NAME:
         return item.mName;
@@ -199,24 +206,26 @@ class ConfigurableHomeDataTable extends StatelessWidget {
       case HomeDataConfig.COL_WAREHOUSE_QTY_OUT:
         return item.zcWarehouseQtyExport.toString();
       case HomeDataConfig.COL_DATE:
-        return _formatDate(item.mDate);
+        return _formatDate(item.mDate, context);
       case HomeDataConfig.COL_QTY_STATE:
         return item.qtyState;
       case HomeDataConfig.COL_UP_IN_QTY_TIME:
-        return item.zcUpInQtyTime ?? 'No data';
+        return item.zcUpInQtyTime ?? multiLanguage.noDataMessage;
       case HomeDataConfig.COL_QC_UP_IN_QTY_TIME:
-        return item.qcUpInQtyTime ?? 'No data';
+        return item.qcUpInQtyTime ?? multiLanguage.noDataMessage;
       case HomeDataConfig.COL_IN_QC_QTY_TIME:
-        return item.zcInQcQtyTime ?? 'No data';
+        return item.zcInQcQtyTime ?? multiLanguage.noDataMessage;
       case HomeDataConfig.COL_ADMIN_ALL_DATA_TIME:
-        return item.adminAllDataTime ?? 'No data';
+        return item.adminAllDataTime ?? multiLanguage.noDataMessage;
       default:
-        return 'No data';
+        return multiLanguage.noDataMessage;
     }
   }
 
-  String _formatDate(String dateString) {
-    if (dateString.isEmpty) return 'No data';
+  String _formatDate(String dateString, BuildContext context) {
+    final multiLanguage = AppLocalizations.of(context);
+
+    if (dateString.isEmpty) return multiLanguage.noDataMessage;
     
     if (dateString.contains('T')) {
       return dateString.split('T')[0];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminScannerWidget extends StatelessWidget {
   final MobileScannerController? controller;
@@ -44,9 +45,9 @@ class AdminScannerWidget extends StatelessWidget {
                   placeholderBuilder: (context, child) {
                     return Container(
                       color: AppColors.blackCommon,
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          "Initializing camera...",
+                          AppLocalizations.of(context).initializingCameraMessage,
                           style: TextStyle(color: AppColors.whiteCommon),
                         ),
                       ),
@@ -75,7 +76,7 @@ class AdminScannerWidget extends StatelessWidget {
                                 controller!.stop();
                                 controller!.start();
                               },
-                              child: const Text("Try Again", style: TextStyle(color: AppColors.whiteCommon),),
+                              child: Text(AppLocalizations.of(context).tryAgainButton, style: TextStyle(color: AppColors.whiteCommon),),
                             ),
                           ],
                         ),
@@ -85,9 +86,9 @@ class AdminScannerWidget extends StatelessWidget {
                 )
               : Container(
                   color: AppColors.blackCommon,
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Camera is off",
+                      AppLocalizations.of(context).cameraStatusMessage,
                       style: TextStyle(
                         fontSize: 18,
                         color: AppColors.whiteCommon,

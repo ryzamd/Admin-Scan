@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/di/dependencies.dart' as di;
+import '../../../../../core/localization/language_bloc.dart';
+import '../../../../../core/services/get_translate_key.dart';
 import '../../../../../core/services/secure_storage_service.dart';
 import '../../../../../core/widgets/error_dialog.dart';
 import '../../../../../core/widgets/logo_custom.dart';
@@ -10,6 +12,7 @@ import '../bloc/login_bloc.dart';
 import '../bloc/login_event.dart';
 import '../bloc/login_state.dart';
 import '../widgets/login_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,8 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   
-  String _selectedDepartment = 'Quality Control';
-  final List<String> _departments = ['Quality Control', 'Warehouse Manager'];
+  String _selectedDepartment = 'qualityControl';
+  final List<String> _departments = ['qualityControl', 'warehouseManager'];
   
   final FocusNode _userIdFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
@@ -61,6 +64,8 @@ class _LoginPageState extends State<LoginPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final isKeyboardVisible = keyboardHeight > 0;
+
+    final multiLanguage = AppLocalizations.of(context);
     
     return BlocProvider(
       create: (context) => di.sl<LoginBloc>(),
@@ -81,8 +86,8 @@ class _LoginPageState extends State<LoginPage> {
           if (context.mounted) {
             ErrorDialog.showAsync(
               context,
-              title: 'Login Failed',
-              message: state.message,
+              title: multiLanguage.loginFailed,
+              message: TranslateKey.getStringKey(multiLanguage, state.message),
               onDismiss: () {
                 if (context.mounted) {
                   context.read<LoginBloc>().add(ResetLoginStateEvent());
@@ -94,6 +99,27 @@ class _LoginPageState extends State<LoginPage> {
       },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
+            appBar: PreferredSize(
+            preferredSize: Size.fromHeight(56),
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xFF3a7bd5),
+                    Color(0xFF3a7bd5),
+                  ],
+                ),
+              ),
+              child: SafeArea(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: _buildLanguageFlagButton(),
+                ),
+              ),
+            ),
+          ),
           body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -115,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Column(
                         children: [
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 15),
                           buildLogoWidget(),
                           const SizedBox(height: 24),
                           
@@ -139,11 +165,11 @@ class _LoginPageState extends State<LoginPage> {
                                         children: [
                                           LoginTextField(
                                             controller: _userIdController,
-                                            hintText: '请选择用户名',
+                                             hintText: multiLanguage.usernameHint,
                                             focusNode: _userIdFocusNode,
                                             validator: (value) {
                                               if (value == null || value.isEmpty) {
-                                                return 'Please enter your username';
+                                                return multiLanguage.pleaseEnterUsername;
                                               }
                                               return null;
                                             },
@@ -157,12 +183,12 @@ class _LoginPageState extends State<LoginPage> {
                                           const SizedBox(height: 16),
                                           LoginTextField(
                                             controller: _passwordController,
-                                            hintText: '输入密码',
+                                            hintText: multiLanguage.passwordHint,
                                             obscureText: true,
                                             focusNode: _passwordFocusNode,
                                             validator: (value) {
                                               if (value == null || value.isEmpty) {
-                                                return 'Please enter your password';
+                                               return multiLanguage.pleaseEnterPassword;
                                               }
                                               return null;
                                             },
@@ -240,6 +266,72 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLanguageFlagButton() {
+    return BlocBuilder<LanguageBloc, LanguageState>(
+      builder: (context, state) {
+        final locale = state.locale;
+        
+        Widget flagIcon;
+        if (locale.languageCode == 'en') {
+          flagIcon = Image.asset('assets/flags/US.png', width: 28, height: 28);
+        } else if (locale.languageCode == 'zh' && locale.countryCode == 'CN') {
+          flagIcon = Image.asset('assets/flags/CN.png', width: 28, height: 28);
+        } else {
+          flagIcon = Image.asset('assets/flags/TW.png', width: 28, height: 28);
+        }
+        
+        return PopupMenuButton<LanguageEvent>(
+          onSelected: (event) {
+            context.read<LanguageBloc>().add(event);
+          },
+          offset: Offset(0, 10),
+          icon: flagIcon,
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: LanguageEvent.toEnglish,
+              child: Row(
+                children: [
+                  Image.asset('assets/flags/US.png', width: 24, height: 24),
+                  SizedBox(width: 12),
+                  Text('English'),
+                  Spacer(),
+                  if (locale.languageCode == 'en')
+                    Icon(Icons.check, color: AppColors.primary),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: LanguageEvent.toChineseSimplified,
+              child: Row(
+                children: [
+                  Image.asset('assets/flags/CN.png', width: 24, height: 24),
+                  SizedBox(width: 12),
+                  Text('简体中文'),
+                  Spacer(),
+                  if (locale.languageCode == 'zh' && locale.countryCode == 'CN')
+                    Icon(Icons.check, color: AppColors.primary),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: LanguageEvent.toChineseTraditional,
+              child: Row(
+                children: [
+                  Image.asset('assets/flags/TW.png', width: 24, height: 24),
+                  SizedBox(width: 12),
+                  Text('繁體中文'),
+                  Spacer(),
+                  if (locale.languageCode == 'zh' && locale.countryCode == 'TW')
+                    Icon(Icons.check, color: AppColors.primary),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -98,6 +99,18 @@ class DepartmentDropdown extends StatefulWidget {
 }
 
 class _DepartmentDropdownState extends State<DepartmentDropdown> {
+
+  String _getDepartmentLabel(BuildContext context, String key) {
+    switch (key) {
+      case 'qualityControl':
+        return AppLocalizations.of(context).qualityControlLabel;
+      case 'warehouseManager':
+        return AppLocalizations.of(context).warehouseManagerLabel;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -125,7 +138,7 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
             children: [
               Expanded(
                 child: Text(
-                  widget.selectedDepartment,
+                  _getDepartmentLabel(context, widget.selectedDepartment),
                   style: const TextStyle(
                     color: AppColors.blackCommon,
                     fontSize: 16,
@@ -162,11 +175,11 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: Text(
-                          'Select Department',
-                          style: TextStyle(
+                          AppLocalizations.of(context).selectDepartmentLabel,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -174,7 +187,11 @@ class _DepartmentDropdownState extends State<DepartmentDropdown> {
                       ),
                       const Divider(),
                       ...widget.departments.map((department) => ListTile(
-                        title: Text(department, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),),
+                        title: Text(
+                          _getDepartmentLabel(context, department),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                        ),
                         selected: department == widget.selectedDepartment,
                         onTap: () {
                           widget.onChanged(department);
@@ -232,8 +249,8 @@ class LoginButton extends StatelessWidget {
           child: Center(
             child: isLoading
                 ? const CircularProgressIndicator(color: AppColors.scaffoldBackground)
-                : const Text(
-                    '登录',
+                : Text(
+                    AppLocalizations.of(context).loginButton,
                     style: TextStyle(
                       color: AppColors.whiteCommon,
                       fontSize: 16,

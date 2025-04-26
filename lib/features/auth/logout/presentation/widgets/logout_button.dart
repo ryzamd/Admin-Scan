@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
+import '../../../../../core/services/get_translate_key.dart';
 import '../../../../../core/widgets/confirmation_dialog.dart';
 import '../../../../../core/widgets/error_dialog.dart';
 import '../bloc/logout_bloc.dart';
 import '../bloc/logout_event.dart';
 import '../bloc/logout_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogoutButton extends StatelessWidget {
   final double width;
@@ -20,6 +22,9 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final multiLanguage = AppLocalizations.of(context);
+
     return BlocListener<LogoutBloc, LogoutState>(
       listener: (context, state) {
         if (state is LogoutSuccess) {
@@ -30,8 +35,8 @@ class LogoutButton extends StatelessWidget {
         } else if (state is LogoutFailure) {
           ErrorDialog.showAsync(
             context,
-            title: 'LOGOUT FAILED',
-            message: state.message,
+            title: multiLanguage.logoutFailedUPCASE,
+            message: TranslateKey.getStringKey(multiLanguage, state.message),
           );
         }
       },
@@ -41,10 +46,10 @@ class LogoutButton extends StatelessWidget {
           onTap: () {
             ConfirmationDialog.showAsync(
               context,
-              title: 'LOGOUT',
-              message: 'Are you sure you want to log out?',
-              confirmText: 'Logout',
-              cancelText: 'Cancel',
+              title: multiLanguage.logoutButtonUPCASE,
+              message: multiLanguage.logoutConfirmMessage,
+              confirmText: StringKey.confirmButtonDialog,
+              cancelText: StringKey.cancelButtonDialog,
               confirmColor: AppColors.alert,
               onConfirm: () {
                 context.read<LogoutBloc>().add(LogoutButtonPressed());
@@ -66,8 +71,8 @@ class LogoutButton extends StatelessWidget {
                     ),
                   );
                 }
-                return const Text(
-                  'LOGOUT',
+                return Text(
+                  multiLanguage.logoutButtonUPCASE,
                   style: TextStyle(
                     color: AppColors.whiteCommon,
                     fontSize: 18,

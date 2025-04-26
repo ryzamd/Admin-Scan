@@ -6,6 +6,7 @@ import '../../../../core/services/navigation_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/widgets/scafford_custom.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminMenuPage extends StatefulWidget {
   final UserEntity user;
@@ -18,7 +19,7 @@ class AdminMenuPage extends StatefulWidget {
 
 class _AdminMenuPageState extends State<AdminMenuPage> {
 
-  String _department = 'Quality Control';
+  String _department = 'qualityControl';
   bool _isLoading = true;
   
   @override
@@ -31,7 +32,7 @@ class _AdminMenuPageState extends State<AdminMenuPage> {
     final department = await di.sl<SecureStorageService>().getUserDepartmentAsync();
     if (mounted) {
       setState(() {
-        _department = department ?? 'Quality Control';
+        _department = department ?? 'qualityControl';
         _isLoading = false;
       });
     }
@@ -44,14 +45,14 @@ class _AdminMenuPageState extends State<AdminMenuPage> {
     });
     
     if (_isLoading) {
-      return const CustomScaffold(
-        title: 'Admin Menu',
+      return CustomScaffold(
+        title: AppLocalizations.of(context).adminMenu,
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     return CustomScaffold(
-      title: 'Admin Menu',
+      title: AppLocalizations.of(context).adminMenu,
       user: widget.user,
       showHomeIcon: false,
       currentIndex: 1,
@@ -122,51 +123,53 @@ class _AdminMenuPageState extends State<AdminMenuPage> {
   }
 
   List<Widget> _buildFunctionsByDepartment() {
-    if (_department  == 'Quality Control') {
+    if (_department == 'qualityControl') {
       return [
         Center(
           child: Padding(
             padding: EdgeInsets.only(top: 8, bottom: 16),
-            child: Text('Quality Control',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: AppColors.scaffoldBackground),
+            child: Text(
+              AppLocalizations.of(context).qualityControlLabel,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: AppColors.scaffoldBackground),
             ),
           ),
         ),
 
         _buildAdminActionTile(
           context,
-          title: '清除質檢與扣碼資料',
+          title: AppLocalizations.of(context).clearQcAndDeductionLabel,
           icon: Icons.cleaning_services,
           route: AppRoutes.clearQcInspection,
         ),
         _buildAdminActionTile(
           context,
-          title: '清除扣碼資料',
+          title: AppLocalizations.of(context).clearDeductionLabel,
           icon: Icons.remove_circle,
           route: AppRoutes.clearQcDeduction,
         ),
       ];
     }
-    else if (_department  == 'Warehouse Manager') {
+    else if (_department  == 'warehouseManager') {
       return [
         Center(
           child: Padding(
             padding: EdgeInsets.only(top: 8, bottom: 16),
-            child: Text('Quality Control',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: AppColors.scaffoldBackground),
+            child: Text(
+              AppLocalizations.of(context).warehouseLabel,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: AppColors.scaffoldBackground),
             ),
           ),
         ),
 
         _buildAdminActionTile(
           context,
-          title: '清除入庫資料',
+          title: AppLocalizations.of(context).clearWarehouseDataLabel,
           icon: Icons.delete_sweep,
           route: AppRoutes.clearWarehouseQty,
         ),
         _buildAdminActionTile(
           context,
-          title: '導入未質檢資料',
+          title: AppLocalizations.of(context).importUncheckedDataLabel,
           icon: Icons.download,
           route: AppRoutes.pullQcUnchecked,
         ),

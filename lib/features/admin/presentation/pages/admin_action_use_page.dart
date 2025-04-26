@@ -1,3 +1,4 @@
+import 'package:admin_scan/core/services/get_translate_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_routes.dart';
@@ -6,6 +7,7 @@ import '../../../../core/services/navigation_service.dart';
 import '../../../auth/login/domain/entities/user_entity.dart';
 import '../bloc/admin_action_bloc.dart';
 import 'admin_function_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClearWarehouseQtyPage extends StatelessWidget {
   final UserEntity user;
@@ -22,10 +24,10 @@ class ClearWarehouseQtyPage extends StatelessWidget {
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminFunctionPageWithHomeData(
         user: user,
-        title: 'Clear WH Quantity',
-        actionType: AdminActionBloc.ACTION_CLEAR_WAREHOUSE_QTY,
-        successMessage: 'The warehouse quantity has been successfully cleared.',
-        functionType: 'clear_warehouse_qty',
+        title: AppLocalizations.of(context).clearWarehouseQuantityLabel,
+        actionType: FunctionType.ACTION_CLEAR_WAREHOUSE_QTY,
+        successMessage: AppLocalizations.of(context).clearWarehouseQuantitySuccessMessage,
+        functionType: FunctionType.ACTION_CLEAR_WAREHOUSE_QTY,
       ),
     );
   }
@@ -46,10 +48,10 @@ class ClearQcInspectionPage extends StatelessWidget {
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminFunctionPageWithHomeData(
         user: user,
-        title: 'Clear QC Inspected',
-        actionType: AdminActionBloc.ACTION_CLEAR_QC_INSPECTION,
-        successMessage: 'The QC inspection data has been successfully cleared.',
-        functionType: 'clear_qc_inspection',
+        title: AppLocalizations.of(context).clearQcInspectionLabel,
+        actionType: FunctionType.ACTION_CLEAR_QC_INSPECTION,
+        successMessage: AppLocalizations.of(context).clearQcInspectionMessage,
+        functionType: FunctionType.ACTION_CLEAR_QC_INSPECTION,
       ),
     );
   }
@@ -70,10 +72,10 @@ class ClearQcDeductionPage extends StatelessWidget {
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminFunctionPageWithHomeData(
         user: user,
-        title: 'Clear QC Deducted',
-        actionType: AdminActionBloc.ACTION_CLEAR_QC_DEDUCTION,
-        successMessage: 'The QC deduction data has been successfully cleared.',
-        functionType: 'clear_qc_deduction',
+        title: AppLocalizations.of(context).clearQcDeductionLabel,
+        actionType: FunctionType.ACTION_CLEAR_QC_DEDUCTION,
+        successMessage: AppLocalizations.of(context).clearQcDeductionMessage,
+        functionType: FunctionType.ACTION_CLEAR_QC_DEDUCTION,
       ),
     );
   }
@@ -94,10 +96,10 @@ class PullQcUncheckedDataPage extends StatelessWidget {
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminFunctionPageWithHomeData(
         user: user,
-        title: 'Import Material Unchecked',
-        actionType: AdminActionBloc.ACTION_PULL_QC_UNCHECKED,
-        successMessage: 'The QC unchecked data has been successfully pulled.',
-        functionType: 'pull_qc_unchecked',
+        title: AppLocalizations.of(context).importUncheckedLabel,
+        actionType: FunctionType.ACTION_PULL_QC_UNCHECKED,
+        successMessage: AppLocalizations.of(context).importUncheckedMessage,
+        functionType: FunctionType.ACTION_PULL_QC_UNCHECKED,
       ),
     );
   }
@@ -118,10 +120,10 @@ class ClearAllDataPage extends StatelessWidget {
       create: (context) => di.sl<AdminActionBloc>(param1: user),
       child: AdminFunctionPageWithHomeData(
         user: user,
-        title: 'Clear All Data',
-        actionType: AdminActionBloc.ACTION_CLEAR_ALL_DATA,
-        successMessage: 'All data has been successfully cleared.',
-        functionType: 'clear_all_data',
+        title: AppLocalizations.of(context).clearAllDataLabel,
+        actionType: FunctionType.ACTION_CLEAR_ALL_DATA,
+        successMessage: AppLocalizations.of(context).clearAllDataMessage,
+        functionType: FunctionType.ACTION_CLEAR_ALL_DATA,
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
+import '../services/get_translate_key.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppBarActionsButton extends StatelessWidget {
   final bool isDataView;
@@ -32,66 +34,68 @@ class AppBarActionsButton extends StatelessWidget {
       icon: const Icon(Icons.view_quilt, color: Colors.white),
       onSelected: (String value) {
         switch (value) {
-          case 'calendar':
+          case StringKey.calendarIconButton:
             onCalendarTap();
             break;
-          case 'refresh':
+          case StringKey.refreshIconButton:
             onRefreshTap();
             break;
-          case 'torch':
+          case StringKey.torchIconButton:
             onTorchToggle();
             break;
-          case 'flip_camera':
+          case StringKey.flipCameraIconButton:
             onCameraFlip();
             break;
-          case 'camera_toggle':
+          case StringKey.cameraToggleIconButton:
             onCameraToggle();
             break;
-          case 'clear':
+          case StringKey.clearIconButton:
             onClearData();
             break;
         }
       },
       itemBuilder: (BuildContext context) {
+        final multiLanguage = AppLocalizations.of(context);
+
         if (isDataView) {
           return [
             _buildPopupMenuItem(
-              'calendar',
+              StringKey.calendarIconButton,
               Icons.calendar_month,
-              'Calendar',
+              multiLanguage.calendarIconButton,
               iconColor: AppColors.primary,
             ),
             _buildPopupMenuItem(
-              'refresh',
+              StringKey.refreshIconButton,
               Icons.refresh,
-              'Refresh',
+              multiLanguage.refreshIconButton,
               iconColor: AppColors.primary,
             ),
           ];
         } else {
           return [
             _buildPopupMenuItem(
-              'torch',
+              StringKey.torchIconButton,
               isTorchEnabled ? Icons.flash_on : Icons.flash_off,
-              'Torch',
+              multiLanguage.torchIconButton,
               iconColor: isTorchEnabled ? AppColors.warning : AppColors.primary,
             ),
             _buildPopupMenuItem(
-              'flip_camera',
+              StringKey.flipCameraIconButton,
               Icons.flip_camera_ios,
-              'Flip Camera',
+              multiLanguage.flipCameraIconButton,
               iconColor: AppColors.primary,
             ),
             _buildPopupMenuItem(
-              'camera_toggle',
+              StringKey.cameraToggleIconButton,
               isCameraActive ? Icons.stop : Icons.play_arrow,
-              'Toggle Camera',
+              multiLanguage.toggleCameraIconButton,
               iconColor: isCameraActive ? Colors.red : AppColors.primary,
             ),
             _buildPopupMenuItem(
-              'clear',
+              StringKey.clearIconButton,
               Icons.delete,
-              'Clear Data',
+              multiLanguage.clearDataIconButton,
               iconColor: Colors.red,
             ),
           ];

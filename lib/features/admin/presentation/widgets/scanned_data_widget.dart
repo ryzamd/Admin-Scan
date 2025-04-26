@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/services/get_translate_key.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../domain/entities/scanned_data_entity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScannedData extends StatelessWidget {
   final ScannedDataEntity data;
@@ -17,6 +19,9 @@ class ScannedData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final multiLanguage = AppLocalizations.of(context);
+
     return Container(
       height: 230,
       width: double.infinity,
@@ -36,8 +41,8 @@ class ScannedData extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Scanned Item Details:',
+          Text(
+            multiLanguage.scannedItemDetailLabel,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -46,48 +51,51 @@ class ScannedData extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           
-          _buildDataRow('名稱:', data.mName),
-          _buildDataRow('指令號:', data.mPrjcode),
+          _buildDataRow(multiLanguage.materialNameLabel, data.mName),
+          _buildDataRow(multiLanguage.materialCommandNumberLabel, data.mPrjcode),
           
-          ...buildActionSpecificFields(),
+          ...buildActionSpecificFields(context),
         ],
       ),
     );
   }
   
-  List<Widget> buildActionSpecificFields() {
+  List<Widget> buildActionSpecificFields(BuildContext context) {
+
+     final multiLanguage = AppLocalizations.of(context);
+
     switch (actionType) {
-      case 'clear_warehouse_qty':
+      case FunctionType.ACTION_CLEAR_WAREHOUSE_QTY:
         return [
-          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
-          _buildDataRow('出庫:', data.zcWarehouseQtyOut.toString()),
+          _buildDataRow(multiLanguage.materialImportLabel, data.zcWarehouseQtyInt.toString()),
+          _buildDataRow(multiLanguage.materialExportLabel, data.zcWarehouseQtyOut.toString()),
           if (data.zcUpInQtyTime != null)
-            _buildDataRow('撤回時間:', DateFormatter.formatTimestamp(data.zcUpInQtyTime!)),
+            _buildDataRow(multiLanguage.materialExportTimeLabel, DateFormatter.formatTimestamp(data.zcUpInQtyTime!)),
         ];
         
-      case 'clear_qc_inspection':
-      case 'clear_qc_deduction':
+      case FunctionType.ACTION_CLEAR_QC_INSPECTION:
+      case FunctionType.ACTION_CLEAR_QC_DEDUCTION:
         return [
-          _buildDataRow('質檢:', data.qcQtyIn.toString()),
-          _buildDataRow('扣碼:', data.qcQtyOut.toString()),
+          _buildDataRow(multiLanguage.qualityInspectionLabel, data.qcQtyIn.toString()),
+          _buildDataRow(multiLanguage.deductionCodeLabel, data.qcQtyOut.toString()),
           if (data.qcUpInQtyTime != null)
-            _buildDataRow('QC修改時間:', DateFormatter.formatTimestamp(data.qcUpInQtyTime!)),
+            _buildDataRow(multiLanguage.qcModificationTimeLabel, DateFormatter.formatTimestamp(data.qcUpInQtyTime!)),
         ];
         
-      case 'pull_qc_unchecked':
+      case FunctionType.ACTION_PULL_QC_UNCHECKED:
         return [
-          _buildDataRow('数量:', data.mQty.toString()),
-          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
+          _buildDataRow(multiLanguage.quantityLabel, data.mQty.toString()),
+          _buildDataRow(multiLanguage.materialImportLabel, data.zcWarehouseQtyInt.toString()),
           if (data.zcInQcQtyTime != null)
-            _buildDataRow('時間:', DateFormatter.formatTimestamp(data.zcInQcQtyTime!)),
+            _buildDataRow(multiLanguage.importUnInspectMaterialTimeLabel, DateFormatter.formatTimestamp(data.zcInQcQtyTime!)),
         ];
         
-      case 'clear_all_data':
+      case FunctionType.ACTION_CLEAR_ALL_DATA:
         return [
-          _buildDataRow('質檢:', data.qcQtyIn.toString()),
-          _buildDataRow('扣碼:', data.qcQtyOut.toString()),
-          _buildDataRow('入庫:', data.zcWarehouseQtyInt.toString()),
-          _buildDataRow('出庫:', data.zcWarehouseQtyOut.toString()),
+          _buildDataRow(multiLanguage.qualityInspectionLabel, data.qcQtyIn.toString()),
+          _buildDataRow(multiLanguage.deductionCodeLabel, data.qcQtyOut.toString()),
+          _buildDataRow(multiLanguage.materialImportLabel, data.zcWarehouseQtyInt.toString()),
+          _buildDataRow(multiLanguage.materialExportLabel, data.zcWarehouseQtyOut.toString()),
         ];
         
       default:
@@ -100,6 +108,7 @@ class ScannedData extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 10,
         children: [
           SizedBox(
             width: 120,
@@ -112,6 +121,7 @@ class ScannedData extends StatelessWidget {
               ),
             ),
           ),
+
           Expanded(
             child: Text(
               value,

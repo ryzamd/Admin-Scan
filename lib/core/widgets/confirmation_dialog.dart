@@ -1,4 +1,6 @@
+import 'package:admin_scan/core/services/get_translate_key.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants/app_colors.dart';
 
@@ -17,8 +19,8 @@ class ConfirmationDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
-    this.confirmText = 'Confirm',
-    this.cancelText = 'Cancel',
+    this.confirmText = StringKey.confirmButtonDialog,
+    this.cancelText = StringKey.cancelButtonDialog,
     required this.onConfirm,
     required this.onCancel,
     this.confirmColor = AppColors.success,
@@ -28,13 +30,15 @@ class ConfirmationDialog extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String message,
-    String confirmText = 'Confirm',
-    String cancelText = 'Cancel',
+    String confirmText = StringKey.confirmButtonDialog,
+    String cancelText = StringKey.cancelButtonDialog,
     required VoidCallback onConfirm,
     required VoidCallback onCancel,
     Color confirmColor = AppColors.success,
   }) async {
     
+    final multiLanguage = AppLocalizations.of(context);
+
     if (!_isShowing && context.mounted) {
       _isShowing = true;
       
@@ -44,8 +48,8 @@ class ConfirmationDialog extends StatelessWidget {
         builder: (context) => ConfirmationDialog(
           title: title,
           message: message,
-          confirmText: confirmText,
-          cancelText: cancelText,
+          confirmText: TranslateKey.getStringKey(multiLanguage, confirmText),
+          cancelText: TranslateKey.getStringKey(multiLanguage, cancelText),
           onConfirm: () {
             _isShowing = false;
             Navigator.pop(context);
