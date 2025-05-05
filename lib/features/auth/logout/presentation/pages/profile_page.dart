@@ -4,6 +4,7 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/di/dependencies.dart' as di;
 import '../../../../../core/services/navigation_service.dart';
+import '../../../../../core/widgets/language_selector.dart';
 import '../../../../../core/widgets/scafford_custom.dart';
 import '../../../login/domain/entities/user_entity.dart';
 import '../bloc/logout_bloc.dart';
@@ -32,6 +33,9 @@ class ProfilePage extends StatelessWidget {
         currentIndex: 2,
         showHomeIcon: false,
         user: user,
+        actions: [
+          const LanguageSelector(),
+        ],
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(

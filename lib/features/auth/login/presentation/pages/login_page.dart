@@ -7,6 +7,7 @@ import '../../../../../core/localization/language_bloc.dart';
 import '../../../../../core/services/get_translate_key.dart';
 import '../../../../../core/services/secure_storage_service.dart';
 import '../../../../../core/widgets/error_dialog.dart';
+import '../../../../../core/widgets/language_selector.dart';
 import '../../../../../core/widgets/logo_custom.dart';
 import '../bloc/login_bloc.dart';
 import '../bloc/login_event.dart';
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               child: SafeArea(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: _buildLanguageFlagButton(),
+                  child: const LanguageSelector(),
                 ),
               ),
             ),
@@ -266,72 +267,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildLanguageFlagButton() {
-    return BlocBuilder<LanguageBloc, LanguageState>(
-      builder: (context, state) {
-        final locale = state.locale;
-        
-        Widget flagIcon;
-        if (locale.languageCode == 'en') {
-          flagIcon = Image.asset('assets/flags/US.png', width: 28, height: 28);
-        } else if (locale.languageCode == 'zh' && locale.countryCode == 'CN') {
-          flagIcon = Image.asset('assets/flags/CN.png', width: 28, height: 28);
-        } else {
-          flagIcon = Image.asset('assets/flags/TW.png', width: 28, height: 28);
-        }
-        
-        return PopupMenuButton<LanguageEvent>(
-          onSelected: (event) {
-            context.read<LanguageBloc>().add(event);
-          },
-          offset: Offset(0, 10),
-          icon: flagIcon,
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: LanguageEvent.toEnglish,
-              child: Row(
-                children: [
-                  Image.asset('assets/flags/US.png', width: 24, height: 24),
-                  SizedBox(width: 12),
-                  Text('English'),
-                  Spacer(),
-                  if (locale.languageCode == 'en')
-                    Icon(Icons.check, color: AppColors.primary),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: LanguageEvent.toChineseSimplified,
-              child: Row(
-                children: [
-                  Image.asset('assets/flags/CN.png', width: 24, height: 24),
-                  SizedBox(width: 12),
-                  Text('简体中文'),
-                  Spacer(),
-                  if (locale.languageCode == 'zh' && locale.countryCode == 'CN')
-                    Icon(Icons.check, color: AppColors.primary),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: LanguageEvent.toChineseTraditional,
-              child: Row(
-                children: [
-                  Image.asset('assets/flags/TW.png', width: 24, height: 24),
-                  SizedBox(width: 12),
-                  Text('繁體中文'),
-                  Spacer(),
-                  if (locale.languageCode == 'zh' && locale.countryCode == 'TW')
-                    Icon(Icons.check, color: AppColors.primary),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }
