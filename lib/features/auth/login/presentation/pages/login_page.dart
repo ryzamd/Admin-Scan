@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_routes.dart';
 import '../../../../../core/di/dependencies.dart' as di;
-import '../../../../../core/localization/language_bloc.dart';
 import '../../../../../core/services/get_translate_key.dart';
 import '../../../../../core/services/secure_storage_service.dart';
 import '../../../../../core/widgets/error_dialog.dart';
